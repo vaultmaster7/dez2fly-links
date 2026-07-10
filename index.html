@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Dez2fly — every link</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0d0a1a">
+<meta name="description" content="Dez2fly — the Vault, the network, the drops. Every link in one place.">
+<meta property="og:title" content="Dez2fly — every link">
+<meta property="og:description" content="The Vault, the 24/7 network, the email list. Everything in one place.">
+<style>
+  :root{
+    --ground:#0d0a1a; --panel:#171226; --panel2:#1d1730; --edge:#2a2140;
+    --ink:#ede8ff; --mute:#8d81b8; --dim:#564a80;
+    --amber:#ffb648; --amber-deep:#e08d1d; --violet:#8f7bdc; --hot:#ff5d76;
+    --sans:"Avenir Next","Helvetica Neue",Helvetica,Arial,sans-serif;
+    --mono:"SF Mono",ui-monospace,Menlo,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:var(--ground);color:var(--ink);font-family:var(--sans);-webkit-text-size-adjust:100%}
+  body{min-height:100vh;min-height:100dvh;display:flex;flex-direction:column;align-items:center;
+       padding:34px 18px calc(40px + env(safe-area-inset-bottom));position:relative;overflow-x:hidden}
+  /* ambient night sky */
+  body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
+    background:
+      radial-gradient(ellipse 60% 40% at 50% -5%, rgba(143,123,220,.20), transparent 60%),
+      radial-gradient(ellipse 45% 30% at 85% 100%, rgba(255,182,72,.08), transparent 65%)}
+  .wrap{position:relative;z-index:1;width:100%;max-width:460px;display:flex;flex-direction:column;gap:12px}
+
+  header{text-align:center;margin-bottom:14px}
+  .tv{font-size:44px;line-height:1;filter:drop-shadow(0 0 18px rgba(255,182,72,.45));animation:flicker 4.5s ease-in-out infinite}
+  @keyframes flicker{0%,100%{opacity:1}92%{opacity:1}94%{opacity:.6}96%{opacity:1}}
+  h1{font-size:30px;font-weight:700;letter-spacing:.02em;margin-top:10px}
+  .tag{font-family:var(--mono);font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:var(--mute);margin-top:6px}
+  .live{display:inline-flex;align-items:center;gap:7px;margin-top:12px;font-family:var(--mono);font-size:10.5px;
+        letter-spacing:.18em;color:var(--amber);border:1px solid rgba(255,182,72,.35);border-radius:999px;
+        padding:6px 14px;background:rgba(255,182,72,.06);text-transform:uppercase}
+  .live i{width:7px;height:7px;border-radius:50%;background:var(--amber);animation:pulse 2.2s ease-in-out infinite}
+  @keyframes pulse{0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(255,182,72,.5)}50%{opacity:.5;box-shadow:0 0 0 6px rgba(255,182,72,0)}}
+
+  a.card{display:flex;align-items:center;gap:15px;background:var(--panel);border:1px solid var(--edge);
+    border-radius:14px;padding:17px 18px;text-decoration:none;color:var(--ink);
+    transition:transform .18s ease,border-color .18s ease,background .18s ease;min-height:64px}
+  a.card:hover,a.card:focus-visible{transform:translateY(-2px);border-color:var(--amber-deep);background:var(--panel2);outline:none}
+  a.card:active{transform:scale(.985)}
+  .ico{font-size:24px;width:42px;height:42px;display:grid;place-items:center;background:var(--panel2);
+       border:1px solid var(--edge);border-radius:11px;flex-shrink:0}
+  .tx b{display:block;font-size:15.5px;font-weight:600;letter-spacing:.01em}
+  .tx span{display:block;font-size:12.5px;color:var(--mute);margin-top:2px;line-height:1.35}
+  .go{margin-left:auto;color:var(--dim);font-size:18px;flex-shrink:0}
+
+  a.card.vault{background:linear-gradient(135deg,#241a3e,#1a1230);border-color:var(--amber-deep);position:relative;overflow:hidden}
+  a.card.vault::after{content:"";position:absolute;top:0;left:-80%;width:60%;height:100%;
+    background:linear-gradient(100deg,transparent,rgba(255,182,72,.13),transparent);
+    animation:sheen 3.8s ease-in-out infinite}
+  @keyframes sheen{0%,60%{left:-80%}100%{left:130%}}
+  a.card.vault .ico{background:rgba(255,182,72,.1);border-color:var(--amber-deep)}
+  .pill{font-family:var(--mono);font-size:9px;letter-spacing:.14em;color:var(--ground);background:var(--amber);
+        border-radius:999px;padding:3px 9px;font-weight:700;margin-left:8px;vertical-align:2px}
+
+  .sect{font-family:var(--mono);font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:var(--dim);
+        text-align:center;margin:14px 0 2px}
+  .socials{display:flex;gap:10px;justify-content:center}
+  .socials a{display:grid;place-items:center;width:52px;height:52px;background:var(--panel);border:1px solid var(--edge);
+     border-radius:13px;font-size:22px;text-decoration:none;transition:transform .18s,border-color .18s}
+  .socials a:hover{transform:translateY(-2px);border-color:var(--violet)}
+  footer{margin-top:26px;text-align:center;font-family:var(--mono);font-size:10px;letter-spacing:.12em;color:var(--dim)}
+  @media (prefers-reduced-motion: reduce){.tv,.live i,a.card.vault::after{animation:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="tv">📺</div>
+    <h1>Dez2fly</h1>
+    <div class="tag">nonstop funny · 5.4M+ across the internet</div>
+    <a class="live" href="https://www.youtube.com/@Dez2fly/live?utm_source=biolink&utm_medium=link&utm_campaign=stream"><i></i>2FLY network — live 24/7</a>
+  </header>
+
+  <a class="card vault" href="https://www.patreon.com/Dez2fly?utm_source=biolink&utm_medium=link&utm_campaign=vault_main">
+    <span class="ico">💀</span>
+    <span class="tx"><b>The Vault <span class="pill">UNCLE PT 2 OUT NOW</span></b>
+    <span>the uncut side. origin stories, no rails. $5, cancel whenever 🪳</span></span>
+    <span class="go">→</span>
+  </a>
+
+  <a class="card" href="https://privatedrop7.carrd.co/?utm_source=biolink&utm_medium=link&utm_campaign=email_grab">
+    <span class="ico">🔓</span>
+    <span class="tx"><b>The Email List</b>
+    <span>free drops that can't survive youtube. straight to your inbox.</span></span>
+    <span class="go">→</span>
+  </a>
+
+  <a class="card" href="https://discord.gg/KUves7XG">
+    <span class="ico">🪳</span>
+    <span class="tx"><b>2 Fly Network — Discord</b>
+    <span>free. the crew's already inside cookin.</span></span>
+    <span class="go">→</span>
+  </a>
+
+  <a class="card" href="https://www.youtube.com/@Dez2fly?sub_confirmation=1">
+    <span class="ico">▶️</span>
+    <span class="tx"><b>YouTube — main channel</b>
+    <span>the skits, the compilations, the network.</span></span>
+    <span class="go">→</span>
+  </a>
+
+  <div class="sect">everywhere else</div>
+  <div class="socials">
+    <a href="https://www.tiktok.com/@dez2fly" aria-label="TikTok">🎵</a>
+    <a href="https://www.instagram.com/dez2fly" aria-label="Instagram">📸</a>
+    <a href="https://www.instagram.com/dez2flyskits" aria-label="Instagram Skits">🎬</a>
+    <a href="https://x.com/dez_2fly21" aria-label="X">𝕏</a>
+  </div>
+
+  <footer>2 FLY ENTERTAINMENT ✦ EST. 2013</footer>
+</div>
+</body>
+</html>
