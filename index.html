@@ -8,6 +8,11 @@
 <meta name="description" content="Dez2fly — the Vault, the network, the drops. Every link in one place.">
 <meta property="og:title" content="Dez2fly — every link">
 <meta property="og:description" content="The Vault, the 24/7 network, the email list. Everything in one place.">
+<meta property="og:image" content="https://2flycrew.co/og.png">
+<meta property="og:url" content="https://2flycrew.co/">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://2flycrew.co/og.png">
 <style>
   :root{
     --ground:#0d0a1a; --panel:#171226; --panel2:#1d1730; --edge:#2a2140;
@@ -19,22 +24,28 @@
   *{box-sizing:border-box;margin:0;padding:0}
   html,body{background:var(--ground);color:var(--ink);font-family:var(--sans);-webkit-text-size-adjust:100%}
   body{min-height:100vh;min-height:100dvh;display:flex;flex-direction:column;align-items:center;
-       padding:34px 18px calc(40px + env(safe-area-inset-bottom));position:relative;overflow-x:hidden}
-  /* ambient night sky */
+       padding:0 18px calc(40px + env(safe-area-inset-bottom));position:relative;overflow-x:hidden}
   body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
     background:
       radial-gradient(ellipse 60% 40% at 50% -5%, rgba(143,123,220,.20), transparent 60%),
       radial-gradient(ellipse 45% 30% at 85% 100%, rgba(255,182,72,.08), transparent 65%)}
   .wrap{position:relative;z-index:1;width:100%;max-width:460px;display:flex;flex-direction:column;gap:12px}
 
-  header{text-align:center;margin-bottom:14px}
+  /* drop banner */
+  #banner{position:relative;z-index:1;width:100vw;margin:0 -18px 22px;display:none;
+    background:linear-gradient(90deg,#2a1a08,#3a2408,#2a1a08);border-bottom:1px solid var(--amber-deep);
+    text-align:center;padding:10px 16px;text-decoration:none}
+  #banner span{font-family:var(--mono);font-size:11.5px;letter-spacing:.14em;color:var(--amber);text-transform:uppercase}
+  #banner.on{display:block}
+
+  header{text-align:center;margin:34px 0 14px}
   .tv{font-size:44px;line-height:1;filter:drop-shadow(0 0 18px rgba(255,182,72,.45));animation:flicker 4.5s ease-in-out infinite}
   @keyframes flicker{0%,100%{opacity:1}92%{opacity:1}94%{opacity:.6}96%{opacity:1}}
   h1{font-size:30px;font-weight:700;letter-spacing:.02em;margin-top:10px}
   .tag{font-family:var(--mono);font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:var(--mute);margin-top:6px}
   .live{display:inline-flex;align-items:center;gap:7px;margin-top:12px;font-family:var(--mono);font-size:10.5px;
         letter-spacing:.18em;color:var(--amber);border:1px solid rgba(255,182,72,.35);border-radius:999px;
-        padding:6px 14px;background:rgba(255,182,72,.06);text-transform:uppercase}
+        padding:6px 14px;background:rgba(255,182,72,.06);text-transform:uppercase;text-decoration:none}
   .live i{width:7px;height:7px;border-radius:50%;background:var(--amber);animation:pulse 2.2s ease-in-out infinite}
   @keyframes pulse{0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(255,182,72,.5)}50%{opacity:.5;box-shadow:0 0 0 6px rgba(255,182,72,0)}}
 
@@ -58,6 +69,35 @@
   .pill{font-family:var(--mono);font-size:9px;letter-spacing:.14em;color:var(--ground);background:var(--amber);
         border-radius:999px;padding:3px 9px;font-weight:700;margin-left:8px;vertical-align:2px}
 
+  /* latest drop */
+  #latest{display:none;flex-direction:column;background:var(--panel);border:1px solid var(--edge);
+    border-radius:14px;overflow:hidden;text-decoration:none;color:var(--ink);
+    transition:transform .18s ease,border-color .18s ease}
+  #latest:hover{transform:translateY(-2px);border-color:var(--hot)}
+  #latest img{width:100%;aspect-ratio:16/9;object-fit:cover;display:block}
+  #latest .lmeta{display:flex;align-items:center;gap:10px;padding:12px 16px}
+  #latest .ltag{font-family:var(--mono);font-size:9px;letter-spacing:.16em;color:var(--ground);
+    background:var(--hot);border-radius:999px;padding:3px 9px;font-weight:700;flex-shrink:0}
+  #latest .ltitle{font-size:13.5px;font-weight:600;line-height:1.3;
+    display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+
+  /* email form */
+  .grab{background:var(--panel);border:1px solid var(--edge);border-radius:14px;padding:17px 18px;position:relative}
+  .grab .gh{display:flex;align-items:center;gap:15px;margin-bottom:12px}
+  .grab .tx b{font-size:15.5px}
+  .grab form{display:flex;gap:8px}
+  .grab input[type=email]{flex:1;background:var(--panel2);border:1px solid var(--edge);border-radius:10px;
+    color:var(--ink);font:inherit;font-size:16px;padding:12px 14px;min-width:0}
+  .grab input[type=email]:focus{outline:none;border-color:var(--amber-deep)}
+  .grab input[type=email]::placeholder{color:var(--dim)}
+  .grab button{background:var(--amber);color:var(--ground);border:none;border-radius:10px;font:inherit;
+    font-weight:700;font-size:14px;padding:12px 18px;cursor:pointer;white-space:nowrap;transition:transform .15s}
+  .grab button:active{transform:scale(.96)}
+  .grab .hp{position:absolute;left:-9999px;opacity:0;height:0;width:0}
+  .grab .msg{font-size:12.5px;margin-top:10px;display:none}
+  .grab .msg.ok{color:#7fc98a;display:block}
+  .grab .msg.err{color:var(--hot);display:block}
+
   .sect{font-family:var(--mono);font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:var(--dim);
         text-align:center;margin:14px 0 2px}
   .socials{display:flex;gap:10px;justify-content:center}
@@ -69,6 +109,9 @@
 </style>
 </head>
 <body>
+<a id="banner" href="https://www.patreon.com/Dez2fly?utm_source=biolink&utm_medium=banner&utm_campaign=part2_banner">
+  <span>💀 UNCLE ORIGIN PT 2 — OUT NOW IN THE VAULT →</span>
+</a>
 <div class="wrap">
   <header>
     <div class="tv">📺</div>
@@ -76,6 +119,11 @@
     <div class="tag">nonstop funny · 5.4M+ across the internet</div>
     <a class="live" href="https://www.youtube.com/@Dez2fly/live?utm_source=biolink&utm_medium=link&utm_campaign=stream"><i></i>2FLY network — live 24/7</a>
   </header>
+
+  <a id="latest" href="#">
+    <img id="lthumb" alt="Latest video thumbnail" loading="lazy">
+    <div class="lmeta"><span class="ltag">LATEST DROP</span><span class="ltitle" id="ltitle"></span></div>
+  </a>
 
   <a class="card vault" href="https://www.youtube.com/@Dez2fly?sub_confirmation=1">
     <span class="ico">▶️</span>
@@ -98,12 +146,19 @@
     <span class="go">→</span>
   </a>
 
-  <a class="card" href="https://privatedrop7.carrd.co/?utm_source=biolink&utm_medium=link&utm_campaign=email_grab">
-    <span class="ico">🔓</span>
-    <span class="tx"><b>The Email List</b>
-    <span>free drops that can't survive youtube. straight to your inbox.</span></span>
-    <span class="go">→</span>
-  </a>
+  <div class="grab">
+    <div class="gh">
+      <span class="ico">🔓</span>
+      <span class="tx"><b>The Email List</b>
+      <span>free drops that can't survive youtube. straight to your inbox.</span></span>
+    </div>
+    <form id="grabform" novalidate>
+      <input class="hp" type="text" name="website" tabindex="-1" autocomplete="off">
+      <input type="email" id="gemail" placeholder="your email" autocomplete="email" required>
+      <button type="submit" id="gbtn">i'm in</button>
+    </form>
+    <div class="msg" id="gmsg"></div>
+  </div>
 
   <a class="card" href="https://discord.gg/KUves7XG">
     <span class="ico">🪳</span>
@@ -123,10 +178,13 @@
 </div>
 
 <script>window.goatcounter={no_onload:true};</script>
-<script data-goatcounter="https://dez2fly.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+<script data-goatcounter="https://dez2fly.goatcounter.com/count" async src="count.js"></script>
 <script>
-// ---- source detection: ?s= param wins, referrer as fallback ----
 (function(){
+  var BANNER_ON = true; // flip to false to hide the drop banner
+  if(BANNER_ON) document.getElementById('banner').classList.add('on');
+
+  // ---- source detection ----
   var p=new URLSearchParams(location.search);
   var src=p.get('s');
   if(!src){
@@ -140,25 +198,64 @@
     else src='direct';
   }
   window.__src=src;
-  // count the visit, bucketed by source
-  
-  var gcount=function(){ if(window.goatcounter.count){
+  var gcount=function(){ if(window.goatcounter&&window.goatcounter.count){
     goatcounter.count({path:'/visit-'+src, title:'Visit from '+src});
   } else setTimeout(gcount,400); };
   gcount();
-  // enrich outbound UTMs so Patreon/Klaviyo know the ORIGINAL platform
-  document.querySelectorAll('a.card, a.live').forEach(function(a){
+
+  // enrich outbound UTMs so Patreon/Klaviyo see the original platform
+  document.querySelectorAll('a.card, a.live, #banner, #latest').forEach(function(a){
     try{
       var u=new URL(a.href);
       if(u.searchParams.has('utm_source')) u.searchParams.set('utm_source','biolink_'+src);
       a.href=u.toString();
     }catch(e){}
   });
-  // click events per link per source
-  document.querySelectorAll('a.card, a.live, .socials a').forEach(function(a){
+  // click events
+  document.querySelectorAll('a.card, a.live, .socials a, #banner, #latest').forEach(function(a){
     a.addEventListener('click',function(){
-      var name=(a.getAttribute('aria-label')||a.querySelector('b')&&a.querySelector('b').childNodes[0].textContent||'link').trim().toLowerCase().replace(/[^a-z0-9]+/g,'-').slice(0,30);
+      var b=a.querySelector('b');
+      var name=(a.getAttribute('aria-label')||a.id||(b&&b.childNodes[0].textContent)||'link').trim().toLowerCase().replace(/[^a-z0-9]+/g,'-').slice(0,30);
       if(window.goatcounter&&goatcounter.count) goatcounter.count({path:'click-'+name+'--'+src,event:true,title:name+' ('+src+')'});
+    });
+  });
+
+  // ---- latest drop (auto-updated nightly by GitHub Action) ----
+  fetch('latest.json',{cache:'no-store'}).then(function(r){return r.json()}).then(function(v){
+    if(!v||!v.id)return;
+    document.getElementById('lthumb').src=v.thumb;
+    document.getElementById('ltitle').textContent=v.title;
+    var el=document.getElementById('latest');
+    el.href='https://www.youtube.com/watch?v='+v.id;
+    el.style.display='flex';
+  }).catch(function(){});
+
+  // ---- email capture -> Klaviyo (Uncle Grabber list) ----
+  var form=document.getElementById('grabform'),msg=document.getElementById('gmsg'),btn=document.getElementById('gbtn');
+  form.addEventListener('submit',function(e){
+    e.preventDefault();
+    if(form.querySelector('.hp').value) return; // bot trap
+    var email=document.getElementById('gemail').value.trim();
+    if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){
+      msg.className='msg err'; msg.textContent='that email looks off — check it?'; return;
+    }
+    btn.disabled=true; btn.textContent='...';
+    fetch('https://a.klaviyo.com/client/subscriptions/?company_id=YcE5u6',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','revision':'2024-10-15'},
+      body:JSON.stringify({data:{type:'subscription',attributes:{
+        custom_source:'2flycrew.co ('+src+')',
+        profile:{data:{type:'profile',attributes:{email:email,properties:{'Signup Source':'biolink_'+src,'Signup Page':'2flycrew.co'}}}}
+      },relationships:{list:{data:{type:'list',id:'XA6qcE'}}}}})
+    }).then(function(r){
+      if(r.ok||r.status===202){
+        msg.className='msg ok'; msg.textContent="you're in. check your inbox 🪳";
+        form.style.display='none';
+        if(window.goatcounter&&goatcounter.count) goatcounter.count({path:'signup--'+src,event:true,title:'email signup ('+src+')'});
+      } else { throw new Error(); }
+    }).catch(function(){
+      msg.className='msg err'; msg.textContent='something hiccuped — try once more';
+      btn.disabled=false; btn.textContent="i'm in";
     });
   });
 })();
