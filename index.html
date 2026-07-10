@@ -98,6 +98,21 @@
   .grab .msg.ok{color:#7fc98a;display:block}
   .grab .msg.err{color:var(--hot);display:block}
 
+  /* live stats */
+  .statline{display:none;font-family:var(--mono);font-size:11px;color:var(--amber);margin-top:4px;letter-spacing:.02em}
+
+  /* social-proof toasts */
+  #toasts{position:fixed;left:14px;bottom:calc(14px + env(safe-area-inset-bottom));z-index:9;
+    display:flex;flex-direction:column;gap:8px;max-width:min(320px,86vw);pointer-events:none}
+  .toast{display:flex;align-items:center;gap:11px;background:var(--panel2);border:1px solid var(--edge);
+    border-left:3px solid var(--amber);border-radius:12px;padding:11px 15px;text-decoration:none;
+    color:var(--ink);font-size:12.5px;line-height:1.35;box-shadow:0 8px 28px rgba(0,0,0,.5);
+    pointer-events:auto;cursor:pointer;opacity:0;transform:translateY(10px);
+    transition:opacity .35s ease,transform .35s ease}
+  .toast.show{opacity:1;transform:none}
+  .toast .te{font-size:19px;flex-shrink:0}
+  .toast b{color:var(--amber);font-weight:700}
+
   .sect{font-family:var(--mono);font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:var(--dim);
         text-align:center;margin:14px 0 2px}
   .socials{display:flex;gap:10px;justify-content:center}
@@ -128,7 +143,8 @@
   <a class="card vault" href="https://www.youtube.com/@Dez2fly?sub_confirmation=1">
     <span class="ico">▶️</span>
     <span class="tx"><b>YouTube — Main Channel <span class="pill">START HERE</span></b>
-    <span>the skits, the weird turns, the 24/7 network. where it all lives.</span></span>
+    <span>the skits, the weird turns, the 24/7 network. where it all lives.</span>
+    <span class="statline" id="st-yt"></span></span>
     <span class="go">→</span>
   </a>
 
@@ -142,15 +158,17 @@
   <a class="card" href="https://www.patreon.com/Dez2fly?utm_source=biolink&utm_medium=link&utm_campaign=vault_main">
     <span class="ico">💀</span>
     <span class="tx"><b>The Vault — uncut side 🔞</b>
-    <span>Uncle Origin Pt 2 out now. no rails. $5, cancel whenever 🪳</span></span>
+    <span>Uncle Origin Pt 2 out now. no rails. $5, cancel whenever 🪳</span>
+    <span class="statline" id="st-vault"></span></span>
     <span class="go">→</span>
   </a>
 
-  <div class="grab">
+  <div class="grab" id="grab">
     <div class="gh">
       <span class="ico">🔓</span>
       <span class="tx"><b>The Email List</b>
-      <span>free drops that can't survive youtube. straight to your inbox.</span></span>
+      <span>free drops that can't survive youtube. straight to your inbox.</span>
+      <span class="statline" id="st-list"></span></span>
     </div>
     <form id="grabform" novalidate>
       <input class="hp" type="text" name="website" tabindex="-1" autocomplete="off">
@@ -160,10 +178,11 @@
     <div class="msg" id="gmsg"></div>
   </div>
 
-  <a class="card" href="https://discord.gg/KUves7XG">
+  <a class="card" href="https://discord.gg/htTStDYfBN">
     <span class="ico">🪳</span>
     <span class="tx"><b>2 Fly Network — Discord</b>
-    <span>free. the crew's already inside cookin.</span></span>
+    <span>free. the crew's already inside cookin.</span>
+    <span class="statline" id="st-dc"></span></span>
     <span class="go">→</span>
   </a>
 
@@ -176,6 +195,8 @@
 
   <footer>2 FLY ENTERTAINMENT ✦ EST. 2013</footer>
 </div>
+
+<div id="toasts" aria-live="polite"></div>
 
 <script>window.goatcounter={no_onload:true};</script>
 <script data-goatcounter="https://dez2fly.goatcounter.com/count" async src="count.js"></script>
@@ -228,6 +249,68 @@
     var el=document.getElementById('latest');
     el.href='https://www.youtube.com/watch?v='+v.id;
     el.style.display='flex';
+  }).catch(function(){});
+
+  // ---- live stats + social-proof toasts (real numbers, refreshed every 6h) ----
+  fetch('stats.json',{cache:'no-store'}).then(function(r){return r.json()}).then(function(s){
+    if(!s) return;
+    // staleness gate: if the updater stops running, quietly show less instead of lying
+    var age=Date.now()-(Date.parse(s.updated||'')||0);
+    if(age>8*864e5) return;            // >8 days old: show no stats at all
+    var fresh=age<26*36e5;             // <26h: time-sensitive claims allowed
+    var clean=function(v){v=Math.floor(Number(v));return isFinite(v)&&v>0?v:0};
+    var subs=(typeof s.yt_subs==='string'&&/^[\d.]+[KM]?$/.test(s.yt_subs))?s.yt_subs:'';
+    var vault=clean(s.vault_members), dc=clean(s.discord_members), list=clean(s.list_count);
+    var joined=fresh?clean(s.joined_7d):0;
+    var put=function(id,txt){var el=document.getElementById(id);if(el&&txt){el.textContent=txt;el.style.display='block';}};
+    if(subs)  put('st-yt', subs+' subscribers strong');
+    if(vault) put('st-vault', vault+' members inside');
+    if(dc)    put('st-dc', dc+' in the server');
+    if(list)  put('st-list', (joined>=10? joined+' joined this week · ':'')+list.toLocaleString('en-US')+'+ deep');
+
+    if(sessionStorage.getItem('toasted')) return; // once per visit, not every page load
+    var pu='https://www.patreon.com/Dez2fly?utm_source=biolink_'+src+'&utm_medium=toast&utm_campaign=vault_toast';
+    var q=[];
+    if(joined>=10) q.push({e:'🔥',b:joined+' people',t:' joined the email list this week',href:'#grab',k:'list'});
+    if(dc>=50) q.push({e:'🪳',b:dc+' of the crew',t:' already in the discord. free',href:'https://discord.gg/htTStDYfBN',k:'discord'});
+    if(vault>=50) q.push({e:'💀',b:vault+' members',t:' inside the vault. door’s open',href:pu,k:'vault'});
+    if(subs) q.push({e:'▶️',b:subs+' deep',t:' on youtube. tap in',href:'https://www.youtube.com/@Dez2fly?sub_confirmation=1',k:'yt'});
+    if(!q.length) return;
+    sessionStorage.setItem('toasted','1');
+    var box=document.getElementById('toasts'), i=0, stopped=false;
+    // the moment they touch the email form, the toasts shut up
+    var stopToasts=function(){stopped=true;var t=box.firstChild;if(t)hide(t);};
+    document.getElementById('gemail').addEventListener('focus',stopToasts);
+    document.getElementById('grabform').addEventListener('submit',stopToasts);
+    var showNext=function(){
+      if(stopped||i>=q.length) return;
+      var t=q[i++];
+      var a=document.createElement('a');
+      a.className='toast'; a.href=t.href;
+      var te=document.createElement('span'); te.className='te'; te.textContent=t.e;
+      var tx=document.createElement('span'); var bb=document.createElement('b');
+      bb.textContent=t.b; tx.appendChild(bb); tx.appendChild(document.createTextNode(t.t));
+      a.appendChild(te); a.appendChild(tx);
+      a.addEventListener('click',function(ev){
+        if(window.goatcounter&&goatcounter.count) goatcounter.count({path:'toast-'+t.k+'--'+src,event:true,title:'toast '+t.k+' ('+src+')'});
+        if(t.href==='#grab'){
+          ev.preventDefault();
+          stopped=true;
+          document.getElementById('grab').scrollIntoView({behavior:'smooth',block:'center'});
+          setTimeout(function(){document.getElementById('gemail').focus();},450);
+          hide(a);
+        }
+      });
+      box.appendChild(a);
+      requestAnimationFrame(function(){requestAnimationFrame(function(){a.classList.add('show');});});
+      setTimeout(function(){hide(a);},6500);
+      setTimeout(showNext,9500);
+    };
+    var hide=function(a){
+      a.classList.remove('show');
+      setTimeout(function(){if(a.parentNode)a.parentNode.removeChild(a);},400);
+    };
+    setTimeout(showNext,4000);
   }).catch(function(){});
 
   // ---- email capture -> Klaviyo (Uncle Grabber list) ----
