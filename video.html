@@ -166,12 +166,17 @@
     a.addEventListener('click',function(){ gc({path:'buy-'+id+'--'+src,event:true}); });
   });
 
-  function resetCountdown(){
+  var resetAt=(function(){
     var et=new Date(new Date().toLocaleString('en-US',{timeZone:'America/New_York'}));
     var days=((8-et.getDay())%7)||7;
     var reset=new Date(et); reset.setDate(et.getDate()+days); reset.setHours(0,0,0,0);
-    var ms=reset-et, dd=Math.floor(ms/864e5), hh=Math.floor(ms%864e5/36e5), mm=Math.floor(ms%36e5/6e4);
-    return (dd>0? dd+'d ':'')+hh+'h '+mm+'m';
+    return Date.now()+(reset-et);
+  })();
+  function pad(n){return (n<10?'0':'')+n;}
+  function resetCountdown(){
+    var ms=Math.max(0,resetAt-Date.now());
+    var dd=Math.floor(ms/864e5), hh=Math.floor(ms%864e5/36e5), mm=Math.floor(ms%36e5/6e4), ss=Math.floor(ms%6e4/1e3);
+    return (dd>0? dd+'d ':'')+pad(hh)+':'+pad(mm)+':'+pad(ss);
   }
 
   fetch('stats.json',{cache:'no-store'}).then(function(r){return r.json()}).then(function(s){
@@ -197,7 +202,7 @@
         document.getElementById('stickynote').textContent=left+' slots left · resets in '+cd;
       }
     }
-    paint(); setInterval(paint, 60000);
+    paint(); setInterval(paint, 1000);
 
     if(s.booked_week>=1 && !sessionStorage.getItem('vtoast')){
       sessionStorage.setItem('vtoast','1');
