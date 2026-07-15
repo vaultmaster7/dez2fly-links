@@ -8,5 +8,8 @@
  "updated": "2026-07-15T13:01:36Z",
  "slots_left": 5,
  "booked_week": 0,
- "slots_cap": 5
+ "slots_cap": 5,
+ "recent": [],
+ "views_today": 5,
+ "video_views_today": 0
 }
