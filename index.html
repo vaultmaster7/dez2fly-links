@@ -173,9 +173,10 @@
     <form id="grabform" novalidate>
       <input class="hp" type="text" name="website" tabindex="-1" autocomplete="off">
       <input type="email" id="gemail" placeholder="your email" autocomplete="email" enterkeyhint="go" autocapitalize="off" autocorrect="off" spellcheck="false" required>
-      <button type="submit" id="gbtn">send the clip</button>
+      <button type="submit" id="gbtn">send me the clip</button>
     </form>
     <div class="msg" id="gmsg"></div>
+    <div style="font-family:var(--mono);font-size:10px;color:var(--dim);margin-top:8px">instant delivery · out in one tap, anytime</div>
   </div>
 
   <a class="card vault" href="https://www.youtube.com/@Dez2fly?sub_confirmation=1">
@@ -467,7 +468,7 @@
     }).catch(function(){
       clearTimeout(tmo);
       msg.className='msg err'; msg.textContent='something hiccuped — try once more';
-      btn.disabled=false; btn.textContent='send the clip';
+      btn.disabled=false; btn.textContent='send me the clip';
       gc({path:'signup-err--'+src,event:true});
     });
   });

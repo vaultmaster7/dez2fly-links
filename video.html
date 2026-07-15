@@ -58,6 +58,14 @@
   .tier.main .tbtn{background:var(--amber);color:var(--ground)}
   .tier:not(.main) .tbtn{background:var(--panel2);color:var(--ink);border:1px solid var(--edge)}
   .tier .fine{font-family:var(--mono);font-size:10px;color:var(--dim);text-align:center;margin-top:8px}
+  .gbox{border:1px dashed var(--amber-deep);border-radius:10px;padding:10px 12px;margin-top:12px;
+    font-size:12px;line-height:1.5;color:var(--ink);background:rgba(255,182,72,.05)}
+  .gbox b{color:var(--amber)}
+  .notfor{background:var(--panel);border:1px solid var(--edge);border-radius:14px;padding:15px 16px}
+  .notfor li{font-size:13px;color:var(--mute);line-height:1.55;margin:6px 0 6px 18px}
+  .finalcta{background:linear-gradient(135deg,#241a2e,#1a1226);border:1px solid var(--hot);border-radius:14px;
+    padding:18px 16px;text-align:center}
+  .finalcta .fh{font-size:16px;font-weight:700;margin-bottom:10px}
 
   .quotes{background:var(--panel);border:1px solid var(--edge);border-radius:14px;padding:15px 16px}
   .q{padding:8px 0;border-top:1px solid var(--edge);font-size:13.5px;line-height:1.45}
@@ -105,12 +113,22 @@
     <div class="step"><i>3</i>it lands in your email. send it, post it, hold it as leverage 🪳</div>
   </div>
 
+  <div class="tier" id="t299">
+    <h2>30 minutes, private call <span class="pr">$299</span></h2>
+    <p>me and you on a video call. content game, business talk, life, whatever's on your agenda. i only do a couple of these a month — that's not marketing, that's my calendar.</p>
+    <a class="tbtn" id="buy299" href="https://buy.stripe.com/5kQ14mfSFfBefg73MT2go02">grab a call — $299</a>
+    <div class="fine">we email you within 48h to schedule</div>
+  </div>
+
   <div class="tier main" id="t49">
     <span class="flag">THE MAIN EVENT</span>
     <h2>personal video <span class="pr"><span class="was">$75</span>$49</span></h2>
     <p>60–90 seconds from me or any character — yes, including uncle. their name, your dirt, fully yours forever. delivered within 7 days or refunded.</p>
     <div class="slots" id="tslots"></div>
-    <a class="tbtn" id="buy49" href="https://buy.stripe.com/5kQeVcgWJfBe9VNcjp2go00">book yours — $49 <span style="text-decoration:line-through;opacity:.55;font-weight:400">$75</span></a>
+    <a class="tbtn" id="buy49" href="https://buy.stripe.com/5kQeVcgWJfBe9VNcjp2go00">book mine — $49 <span style="text-decoration:line-through;opacity:.55;font-weight:400">$75</span></a>
+    <div class="fine">secure stripe checkout · no account needed</div>
+    <div class="gbox">🛡 <b>THE 7-DAY DELIVERY GUARANTEE</b> — your video lands within 7 days, or one email gets your money back. no questions, no exit interview, no hard feelings.</div>
+    <div class="fine" style="margin-top:10px;font-style:italic;font-size:11px">"Been watching dude for 5 years and he still built" — @Corykenshinmadad, youtube</div>
     <div class="fine">launch price — this goes to $75 once weeks start selling out. you're early 🪳</div>
     <div class="fine">split it 3 ways in the group chat = legend for $16</div>
   </div>
@@ -119,13 +137,6 @@
     <h2>ask me anything <span class="pr">$19</span></h2>
     <p>one question — real answer. voice note + text from me (or uncle, if you hate your peace) in your email within 3 days.</p>
     <a class="tbtn" id="buy19" href="https://buy.stripe.com/dRm00i49X60E6JB97d2go01">ask your question — $19</a>
-  </div>
-
-  <div class="tier" id="t299">
-    <h2>30 minutes, private call <span class="pr">$299</span></h2>
-    <p>me and you on a video call. content game, business talk, life, whatever's on your agenda. i only do a couple of these a month — that's not marketing, that's my calendar.</p>
-    <a class="tbtn" id="buy299" href="https://buy.stripe.com/5kQ14mfSFfBefg73MT2go02">grab a call — $299</a>
-    <div class="fine">we email you within 48h to schedule</div>
   </div>
 
   <div class="quotes">
@@ -142,6 +153,19 @@
     <details><summary>how wild does uncle get?</summary><p>you set the dial at checkout. say "clean for grandma" and it's clean. say nothing and… uncle decides.</p></details>
     <details><summary>why only a few slots?</summary><p>i record every single one myself. no team, no AI, no outsourcing. when the week's slots are gone they're gone — the counter up top is live, not a marketing trick.</p></details>
     <details><summary>can i post it?</summary><p>it's yours forever. post it, send it, put it in the family group chat at the worst possible moment.</p></details>
+  </div>
+
+  <div class="notfor">
+    <div class="lbl">🚫 who this is NOT for</div>
+    <li>you need it in 24 hours — i record every one myself. allow the week.</li>
+    <li>you want a polished studio production — it's me, a phone, and a character. that's the whole charm.</li>
+    <li>you're easily offended and picking uncle anyway — your funeral 🪳</li>
+  </div>
+
+  <div class="finalcta">
+    <div class="fh">still here? the clock's still ticking 🪳</div>
+    <a class="tbtn" id="buyfinal" href="https://buy.stripe.com/5kQeVcgWJfBe9VNcjp2go00" style="background:var(--amber);color:var(--ground)">book my video — $49</a>
+    <div class="fine">7-day delivery guarantee · slots reset monday · secure stripe checkout</div>
   </div>
 
   <a class="back" href="/?s=videoback">← back to everything else</a>
@@ -171,7 +195,7 @@
   var gc=function(args){ if(window.goatcounter&&goatcounter.count){goatcounter.count(args);} else if(tries++<25){setTimeout(function(){gc(args);},400);} };
   gc({path:'/video-page-'+src});
 
-  ['buy49','buy19','buy299','stickybtn'].forEach(function(id){
+  ['buy49','buy19','buy299','stickybtn','buyfinal'].forEach(function(id){
     var a=document.getElementById(id);
     a.addEventListener('click',function(){ gc({path:'buy-'+id+'--'+src,event:true}); });
   });
@@ -209,7 +233,7 @@
         document.getElementById('ureset').textContent='slots reset in '+cd;
         document.getElementById('tslots').style.display='block';
         document.getElementById('tslots').textContent='⚡ '+left+' left this week — counter is live, not a bit';
-        document.getElementById('stickynote').textContent=left+' slots left · resets in '+cd;
+        document.getElementById('stickynote').textContent=left+' slots left · resets in '+cd+' · 7-day guarantee';
       }
     }
     paint(); setInterval(paint, 1000);
