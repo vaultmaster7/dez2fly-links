@@ -166,7 +166,8 @@
   <a class="card" href="https://buy.stripe.com/5kQeVcgWJfBe9VNcjp2go00">
     <span class="ico">🎥</span>
     <span class="tx"><b>A personal video — from me or any character 🎥</b>
-    <span>birthdays. roasts. revenge. clean or unhinged — your call. $49, only 10 a week 🪳</span></span>
+    <span>birthdays. roasts. revenge. clean or unhinged — your call. $49 · delivered in 7 days or refunded 🪳</span>
+    <span class="statline" id="st-slots"></span></span>
     <span class="go">→</span>
   </a>
 
@@ -200,7 +201,7 @@
     <a href="https://www.instagram.com/dez2flyskits" aria-label="Instagram Skits">🎬</a>
   </div>
 
-  <footer>2 FLY ENTERTAINMENT ✦ EST. 2013</footer>
+  <footer>SECURE CHECKOUT VIA STRIPE ✦ © 2 FLY ENTERTAINMENT LLC ✦ EST. 2013</footer>
 </div>
 
 <div id="toasts" aria-live="polite"></div>
@@ -275,10 +276,26 @@
     if(dc)    put('st-dc', dc+' in the server');
     if(list)  put('st-list', (joined>=10? joined+' joined this week · ':'')+list.toLocaleString('en-US')+'+ deep');
 
+    // live slots counter + real Monday-reset countdown (America/New_York week)
+    if(typeof s.slots_left === 'number' && fresh){
+      var cap = s.slots_cap || 10;
+      var et = new Date(new Date().toLocaleString('en-US', {timeZone: 'America/New_York'}));
+      var days = ((8 - et.getDay()) % 7) || 7;
+      var reset = new Date(et); reset.setDate(et.getDate() + days); reset.setHours(0,0,0,0);
+      var ms = reset - et, dd = Math.floor(ms/864e5), hh = Math.floor(ms%864e5/36e5);
+      var cd = (dd>0? dd+'d ':'')+hh+'h';
+      if(s.slots_left === 0){
+        put('st-slots', 'sold out this week · slots reset in '+cd);
+      } else {
+        put('st-slots', s.slots_left+' of '+cap+' slots left this week · resets in '+cd);
+      }
+    }
+
     if(sessionStorage.getItem('toasted')) return; // once per visit, not every page load
     var pu='https://www.patreon.com/Dez2fly?utm_source=biolink_'+src+'&utm_medium=toast&utm_campaign=vault_toast';
     var q=[];
     if(joined>=10) q.push({e:'🔥',b:joined+' people',t:' joined the email list this week',href:'#grab',k:'list'});
+    if(s.booked_week>=1 && fresh) q.push({e:'🎥',b:s.booked_week+' personal video'+(s.booked_week>1?'s':''),t:' booked this week already',href:'https://buy.stripe.com/5kQeVcgWJfBe9VNcjp2go00',k:'video'});
     if(dc>=50) q.push({e:'🪳',b:dc+' of the crew',t:' already in the discord. free',href:'https://discord.gg/htTStDYfBN',k:'discord'});
     if(vault>=50) q.push({e:'💀',b:vault+' members',t:' inside the vault. door’s open',href:pu,k:'vault'});
     if(subs) q.push({e:'▶️',b:subs+' deep',t:' on youtube. tap in',href:'https://www.youtube.com/@Dez2fly?sub_confirmation=1',k:'yt'});
