@@ -194,10 +194,10 @@
     <span class="go">→</span>
   </a>
 
-  <a class="card" href="https://buy.stripe.com/5kQeVcgWJfBe9VNcjp2go00">
+  <a class="card" id="videocard" href="/video.html">
     <span class="ico">🎥</span>
     <span class="tx"><b>A personal video — from me or any character 🎥</b>
-    <span>birthdays. roasts. revenge. clean or unhinged — your call. $49 · delivered in 7 days or refunded 🪳</span>
+    <span>birthdays. roasts. revenge. clean or unhinged — your call. from $19 · delivered or refunded 🪳</span>
     <span class="statline" id="st-slots"></span></span>
     <span class="go">→</span>
   </a>
@@ -266,8 +266,8 @@
   // source-matched ordering: show each visitor the ask that fits where they came from
   var wrap=document.querySelector('.wrap');
   var ORDERS={
-    live:['header','#latest','#grab','#vaultcard','a[href^="https://buy.stripe"]','#crew','a.card.vault','a[href*="discord.gg"]','a[href*="Dez2flyAnimated"]','.sect','.socials','footer'],
-    yt:null, ttdm:['header','#latest','#vaultcard','#grab','a[href^="https://buy.stripe"]','#crew','a.card.vault','a[href*="discord.gg"]','a[href*="Dez2flyAnimated"]','.sect','.socials','footer'],
+    live:['header','#latest','#grab','#vaultcard','#videocard','#crew','a.card.vault','a[href*="discord.gg"]','a[href*="Dez2flyAnimated"]','.sect','.socials','footer'],
+    yt:null, ttdm:['header','#latest','#vaultcard','#grab','#videocard','#crew','a.card.vault','a[href*="discord.gg"]','a[href*="Dez2flyAnimated"]','.sect','.socials','footer'],
     igdm:null
   };
   ORDERS.yt=ORDERS.live; ORDERS.igdm=ORDERS.ttdm;
@@ -287,7 +287,7 @@
         }
       });
     },{threshold:0.5});
-    [['#latest','latest'],['#grab','grab'],['#vaultcard','vault'],['a[href^="https://buy.stripe"]','video49'],['#crew','crew'],['a[href*="discord.gg"]','discord'],['footer','bottom']].forEach(function(p){
+    [['#latest','latest'],['#grab','grab'],['#vaultcard','vault'],['#videocard','video49'],['#crew','crew'],['a[href*="discord.gg"]','discord'],['footer','bottom']].forEach(function(p){
       var el=document.querySelector(p[0]); if(el){el.setAttribute('data-seen',p[1]); io.observe(el);}
     });
   }
@@ -312,7 +312,7 @@
     try{
       var u=new URL(a.href, location.origin);
       if(u.searchParams.has('utm_source')) u.searchParams.set('utm_source','biolink_'+src);
-      if(u.pathname.indexOf('vault.html')>=0) u.searchParams.set('s',src);
+      if(u.origin===location.origin && /\.html$/.test(u.pathname)) u.searchParams.set('s',src);
       a.href=u.toString();
     }catch(e){}
   });
@@ -384,7 +384,7 @@
     var pu='/vault.html?s='+src;
     var q=[];
     if(joined>=10) q.push({e:'🔥',b:joined+' people',t:' joined the email list this week',href:'#grab',k:'list'});
-    if(s.booked_week>=1 && fresh) q.push({e:'🎥',b:s.booked_week+' personal video'+(s.booked_week>1?'s':''),t:' booked this week already',href:'https://buy.stripe.com/5kQeVcgWJfBe9VNcjp2go00',k:'video'});
+    if(s.booked_week>=1 && fresh) q.push({e:'🎥',b:s.booked_week+' personal video'+(s.booked_week>1?'s':''),t:' booked this week already',href:'/video.html?s='+src,k:'video'});
     if(dc>=50) q.push({e:'🪳',b:dc+' of the crew',t:' already in the discord. free',href:'https://discord.gg/htTStDYfBN',k:'discord'});
     if(vault>=50) q.push({e:'💀',b:vault+' members',t:' inside the vault. door’s open',href:pu,k:'vault'});
     if(subs) q.push({e:'▶️',b:subs+' deep',t:' on youtube. tap in',href:'https://www.youtube.com/@Dez2fly?sub_confirmation=1',k:'yt'});

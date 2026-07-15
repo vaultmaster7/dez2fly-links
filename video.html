@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Personal videos from Dez2fly</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0d0a1a">
+<meta name="description" content="A personal video from Dez or any of his characters. Birthdays, roasts, revenge. Limited slots weekly.">
+<meta property="og:title" content="Get a personal video from Dez2fly">
+<meta property="og:description" content="From Dez or any character — uncle if you dare. Limited slots every week.">
+<meta property="og:image" content="https://2flycrew.co/og.png">
+<meta property="og:url" content="https://2flycrew.co/video.html">
+<meta name="twitter:card" content="summary_large_image">
+<style>
+  :root{
+    --ground:#0d0a1a; --panel:#171226; --panel2:#1d1730; --edge:#2a2140;
+    --ink:#ede8ff; --mute:#8d81b8; --dim:#564a80;
+    --amber:#ffb648; --amber-deep:#e08d1d; --hot:#ff5d76;
+    --sans:"Avenir Next","Helvetica Neue",Helvetica,Arial,sans-serif;
+    --mono:"SF Mono",ui-monospace,Menlo,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:var(--ground);color:var(--ink);font-family:var(--sans);-webkit-text-size-adjust:100%}
+  body{min-height:100dvh;display:flex;flex-direction:column;align-items:center;
+       padding:0 18px calc(96px + env(safe-area-inset-bottom));overflow-x:hidden}
+  body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
+    background:radial-gradient(ellipse 60% 40% at 50% -5%, rgba(255,93,118,.10), transparent 60%)}
+  .wrap{position:relative;z-index:1;width:100%;max-width:460px;display:flex;flex-direction:column;gap:14px}
+
+  .urg{position:sticky;top:0;z-index:5;margin:0 -18px;background:linear-gradient(90deg,#2a1a08,#3a2408,#2a1a08);
+    border-bottom:1px solid var(--amber-deep);text-align:center;padding:9px 14px;
+    font-family:var(--mono);font-size:11px;letter-spacing:.08em;color:var(--amber)}
+  .urg b{color:#fff}
+
+  header{text-align:center;margin:26px 0 4px}
+  .cam{font-size:42px;line-height:1;filter:drop-shadow(0 0 18px rgba(255,93,118,.4))}
+  h1{font-size:25px;font-weight:700;margin-top:10px;line-height:1.25}
+  .sub{font-size:14px;color:var(--mute);margin-top:8px;line-height:1.5}
+
+  .how{background:var(--panel);border:1px solid var(--edge);border-radius:14px;padding:15px 16px}
+  .lbl{font-family:var(--mono);font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--dim);margin-bottom:10px}
+  .step{display:flex;gap:11px;padding:7px 0;font-size:13.5px;line-height:1.45;color:var(--ink)}
+  .step i{font-style:normal;flex-shrink:0;width:22px;height:22px;border-radius:50%;background:var(--panel2);
+    border:1px solid var(--edge);display:grid;place-items:center;font-family:var(--mono);font-size:11px;color:var(--amber)}
+
+  .tier{background:var(--panel);border:1px solid var(--edge);border-radius:14px;padding:16px;position:relative}
+  .tier.main{border-color:var(--hot);background:linear-gradient(135deg,#241a2e,#1a1226)}
+  .tier .flag{position:absolute;top:-10px;left:16px;font-family:var(--mono);font-size:9px;letter-spacing:.14em;
+    background:var(--hot);color:#fff;border-radius:999px;padding:3px 10px;font-weight:700}
+  .tier h2{font-size:17px;display:flex;justify-content:space-between;align-items:baseline}
+  .tier h2 .pr{color:var(--amber);font-size:19px}
+  .tier p{font-size:13px;color:var(--mute);margin-top:6px;line-height:1.5}
+  .tier .slots{display:none;font-family:var(--mono);font-size:11px;color:var(--hot);margin-top:8px}
+  .tbtn{display:block;text-align:center;text-decoration:none;font-weight:700;font-size:15px;border-radius:11px;
+    padding:13px;margin-top:12px;transition:transform .15s}
+  .tbtn:active{transform:scale(.98)}
+  .tier.main .tbtn{background:var(--amber);color:var(--ground)}
+  .tier:not(.main) .tbtn{background:var(--panel2);color:var(--ink);border:1px solid var(--edge)}
+  .tier .fine{font-family:var(--mono);font-size:10px;color:var(--dim);text-align:center;margin-top:8px}
+
+  .quotes{background:var(--panel);border:1px solid var(--edge);border-radius:14px;padding:15px 16px}
+  .q{padding:8px 0;border-top:1px solid var(--edge);font-size:13.5px;line-height:1.45}
+  .q:first-of-type{border-top:none;padding-top:0}
+  .qa{display:block;font-family:var(--mono);font-size:10px;color:var(--dim);margin-top:3px}
+  .qa b{color:var(--amber)}
+
+  .faq{background:var(--panel);border:1px solid var(--edge);border-radius:14px;padding:6px 16px}
+  .faq details{padding:11px 0;border-top:1px solid var(--edge)}
+  .faq details:first-of-type{border-top:none}
+  .faq summary{font-size:13.5px;font-weight:600;cursor:pointer;list-style:none}
+  .faq summary::after{content:"+";float:right;color:var(--dim)}
+  .faq details[open] summary::after{content:"–"}
+  .faq details p{font-size:13px;color:var(--mute);margin-top:8px;line-height:1.5}
+
+  .sticky{position:fixed;left:0;right:0;bottom:0;z-index:6;padding:12px 18px calc(12px + env(safe-area-inset-bottom));
+    background:rgba(13,10,26,.92);backdrop-filter:blur(12px);border-top:1px solid var(--edge)}
+  .sticky a{display:block;max-width:460px;margin:0 auto;text-align:center;background:var(--amber);color:var(--ground);
+    font-weight:700;font-size:16px;text-decoration:none;border-radius:12px;padding:15px}
+  .sticky .note{text-align:center;font-family:var(--mono);font-size:10px;color:var(--mute);margin-top:6px}
+
+  #toasts{position:fixed;left:14px;bottom:calc(100px + env(safe-area-inset-bottom));z-index:7;max-width:min(320px,86vw)}
+  .toast{display:flex;align-items:center;gap:10px;background:var(--panel2);border:1px solid var(--edge);
+    border-left:3px solid var(--hot);border-radius:12px;padding:10px 14px;font-size:12.5px;color:var(--ink);
+    box-shadow:0 8px 28px rgba(0,0,0,.5);opacity:0;transform:translateY(10px);transition:all .35s ease}
+  .toast.show{opacity:1;transform:none}
+  .toast b{color:var(--amber)}
+  .back{display:block;text-align:center;color:var(--mute);font-size:13px;text-decoration:none;margin-top:8px}
+  footer{margin-top:14px;text-align:center;font-family:var(--mono);font-size:10px;letter-spacing:.1em;color:var(--dim);line-height:1.8}
+</style>
+</head>
+<body>
+<div class="urg" id="urg">🎥 <b id="uslots">loading…</b> · <span id="ureset"></span></div>
+<div class="wrap">
+  <header>
+    <div class="cam">🎥</div>
+    <h1>a video that exists for exactly one human on earth</h1>
+    <div class="sub">from me — or any of my characters. uncle says their government name and goes IN. birthdays, roasts, apologies you owe somebody. clean or unhinged, your call.</div>
+  </header>
+
+  <div class="how">
+    <div class="lbl">how it works</div>
+    <div class="step"><i>1</i>pick your tier below and answer 3 quick questions at checkout</div>
+    <div class="step"><i>2</i>i personally make yours — no team, no templates</div>
+    <div class="step"><i>3</i>it lands in your email. send it, post it, hold it as leverage 🪳</div>
+  </div>
+
+  <div class="tier main" id="t49">
+    <span class="flag">THE MAIN EVENT</span>
+    <h2>personal video <span class="pr">$49</span></h2>
+    <p>60–90 seconds from me or any character — yes, including uncle. their name, your dirt, fully yours forever. delivered within 7 days or refunded.</p>
+    <div class="slots" id="tslots"></div>
+    <a class="tbtn" id="buy49" href="https://buy.stripe.com/5kQeVcgWJfBe9VNcjp2go00">book yours — $49</a>
+    <div class="fine">split it 3 ways in the group chat = legend for $16</div>
+  </div>
+
+  <div class="tier" id="t19">
+    <h2>ask me anything <span class="pr">$19</span></h2>
+    <p>one question — real answer. voice note + text from me (or uncle, if you hate your peace) in your email within 3 days.</p>
+    <a class="tbtn" id="buy19" href="https://buy.stripe.com/dRm00i49X60E6JB97d2go01">ask your question — $19</a>
+  </div>
+
+  <div class="tier" id="t299">
+    <h2>30 minutes, private call <span class="pr">$299</span></h2>
+    <p>me and you on a video call. content game, business talk, life, whatever's on your agenda. i only do a couple of these a month — that's not marketing, that's my calendar.</p>
+    <a class="tbtn" id="buy299" href="https://buy.stripe.com/5kQ14mfSFfBefg73MT2go02">grab a call — $299</a>
+    <div class="fine">we email you within 48h to schedule</div>
+  </div>
+
+  <div class="quotes">
+    <div class="lbl">what the crew says 🪳</div>
+    <div class="q">"Been watching dude for 5 years and he still built"<span class="qa"><b>@Corykenshinmadad</b> · youtube · 89 likes</span></div>
+    <div class="q">"HE FINALLY GOT HIS CRASHOUT EPISODE"<span class="qa"><b>@JR_Edits-k2s</b> · youtube · 223 likes</span></div>
+    <div class="q">"U knew what u was doin making this video 😭💔"<span class="qa"><b>@i.am_cire</b> · youtube · 108 likes</span></div>
+  </div>
+
+  <div class="faq">
+    <div class="lbl" style="padding-top:10px">real questions</div>
+    <details><summary>what if i don't like it?</summary><p>7 days or refunded, no interview. i've got 877K subscribers — i'm not risking that over $49.</p></details>
+    <details><summary>how wild does uncle get?</summary><p>you set the dial at checkout. say "clean for grandma" and it's clean. say nothing and… uncle decides.</p></details>
+    <details><summary>why only a few slots?</summary><p>i record every single one myself. no team, no AI, no outsourcing. when the week's slots are gone they're gone — the counter up top is live, not a marketing trick.</p></details>
+    <details><summary>can i post it?</summary><p>it's yours forever. post it, send it, put it in the family group chat at the worst possible moment.</p></details>
+  </div>
+
+  <a class="back" href="/?s=videoback">← back to everything else</a>
+  <footer>SECURE CHECKOUT VIA STRIPE ✦ DELIVERED OR REFUNDED<br>© 2 FLY ENTERTAINMENT LLC</footer>
+</div>
+
+<div class="sticky" id="sticky">
+  <a id="stickybtn" href="https://buy.stripe.com/5kQeVcgWJfBe9VNcjp2go00">book your video — $49</a>
+  <div class="note" id="stickynote"></div>
+</div>
+<div id="toasts"></div>
+
+<script>window.goatcounter={no_onload:true};</script>
+<script data-goatcounter="https://dez2fly.goatcounter.com/count" async src="count.js"></script>
+<script>
+(function(){
+  var p=new URLSearchParams(location.search);
+  var src=p.get('s')||'direct';
+  var tries=0;
+  var gc=function(args){ if(window.goatcounter&&goatcounter.count){goatcounter.count(args);} else if(tries++<25){setTimeout(function(){gc(args);},400);} };
+  gc({path:'/video-page-'+src});
+
+  ['buy49','buy19','buy299','stickybtn'].forEach(function(id){
+    var a=document.getElementById(id);
+    a.addEventListener('click',function(){ gc({path:'buy-'+id+'--'+src,event:true}); });
+  });
+
+  function resetCountdown(){
+    var et=new Date(new Date().toLocaleString('en-US',{timeZone:'America/New_York'}));
+    var days=((8-et.getDay())%7)||7;
+    var reset=new Date(et); reset.setDate(et.getDate()+days); reset.setHours(0,0,0,0);
+    var ms=reset-et, dd=Math.floor(ms/864e5), hh=Math.floor(ms%864e5/36e5), mm=Math.floor(ms%36e5/6e4);
+    return (dd>0? dd+'d ':'')+hh+'h '+mm+'m';
+  }
+
+  fetch('stats.json',{cache:'no-store'}).then(function(r){return r.json()}).then(function(s){
+    if(!s) return;
+    var age=Date.now()-(Date.parse(s.updated||'')||0);
+    if(age>8*864e5) return;
+    var cap=s.slots_cap||5, left=(typeof s.slots_left==='number')?s.slots_left:null;
+    function paint(){
+      var cd=resetCountdown();
+      if(left===null) return;
+      if(left===0){
+        document.getElementById('uslots').textContent='SOLD OUT this week';
+        document.getElementById('ureset').textContent='new slots in '+cd;
+        document.getElementById('buy49').textContent='sold out — back in '+cd;
+        document.getElementById('buy49').style.opacity=.55;
+        document.getElementById('stickybtn').textContent='videos sold out — ask a question instead ($19)';
+        document.getElementById('stickybtn').href=document.getElementById('buy19').href;
+      } else {
+        document.getElementById('uslots').textContent=left+' of '+cap+' video slots left this week';
+        document.getElementById('ureset').textContent='slots reset in '+cd;
+        document.getElementById('tslots').style.display='block';
+        document.getElementById('tslots').textContent='⚡ '+left+' left this week — counter is live, not a bit';
+        document.getElementById('stickynote').textContent=left+' slots left · resets in '+cd;
+      }
+    }
+    paint(); setInterval(paint, 60000);
+
+    if(s.booked_week>=1 && !sessionStorage.getItem('vtoast')){
+      sessionStorage.setItem('vtoast','1');
+      setTimeout(function(){
+        var t=document.createElement('div'); t.className='toast';
+        var b=document.createElement('b'); b.textContent=s.booked_week+' of the crew';
+        t.appendChild(document.createTextNode('🎥 '));
+        t.appendChild(b);
+        t.appendChild(document.createTextNode(' booked this week already'));
+        document.getElementById('toasts').appendChild(t);
+        requestAnimationFrame(function(){requestAnimationFrame(function(){t.classList.add('show');});});
+        setTimeout(function(){t.classList.remove('show');setTimeout(function(){t.remove();},400);},6000);
+      },5000);
+    }
+  }).catch(function(){});
+})();
+</script>
+</body>
+</html>
