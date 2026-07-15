@@ -81,13 +81,15 @@
     <div class="members" id="vmembers"></div>
   </header>
 
-  <div class="player" id="player">
-    <div class="lbl">▶ free taste — uncle's origin story (the version youtube allowed)</div>
-    <a class="thumbwrap" id="playbtn">
-      <img src="https://i.ytimg.com/vi/z8MVMkPRRvk/hqdefault.jpg" alt="Uncle Origin Story preview">
-      <span class="play"><i>▶</i></span>
-    </a>
-    <div class="sub">this is the CLEAN version. the real one — and part 2 — live below. you'll understand once you watch.</div>
+  <a class="player" id="teaser" href="https://privatedrop7.carrd.co" style="display:block;text-decoration:none;color:inherit">
+    <div class="lbl">▶ free taste — watch the origin story teaser</div>
+    <div class="sub" style="padding-top:2px">60 seconds, free, no signup. you'll understand why the full version can't live on youtube. tap to watch →</div>
+  </a>
+
+  <div class="locked">
+    <div class="lbl">⚔️ know the difference</div>
+    <div class="row"><span style="font-size:22px;flex-shrink:0">💀</span><span class="tt">The Vault (patreon) — $5<span>the FULL uncensored versions. no edits, no bleeps, everything first. this page's whole point.</span></span></div>
+    <div class="row"><span style="font-size:22px;flex-shrink:0">▶️</span><span class="tt">YouTube Membership<span>the toned-down versions + custom emotes for chat & the 24/7 stream — for people who refuse to leave the app.</span></span></div>
   </div>
 
   <div class="locked">
@@ -115,6 +117,7 @@
     </a>
   </div>
   <div class="fine">hosted on patreon · 18+ content inside · cancel in two taps</div>
+  <a class="back" id="ytmem" href="https://www.youtube.com/@Dez2fly/join" style="margin-top:4px">rather stay on youtube? memberships live here (toned-down + emotes) →</a>
 
   <a class="back" href="/?s=vaultback">← back to everything else</a>
   <footer>© 2 FLY ENTERTAINMENT LLC</footer>
@@ -140,16 +143,11 @@
     if(s&&s.vault_members){var el=document.getElementById('vmembers');el.textContent=s.vault_members+' members inside right now';el.style.display='block';}
   }).catch(function(){});
 
-  document.getElementById('playbtn').addEventListener('click',function(e){
-    e.preventDefault();
-    gc('vault-teaser-play--'+src,true);
-    var f=document.createElement('iframe');
-    f.src='https://www.youtube-nocookie.com/embed/z8MVMkPRRvk?autoplay=1&rel=0';
-    f.allow='autoplay; encrypted-media; picture-in-picture';
-    f.allowFullscreen=true;
-    this.replaceWith(f);
+  document.getElementById('teaser').addEventListener('click',function(){
+    gc('vault-teaser-click--'+src,true);
   });
 
+  document.getElementById('ytmem').addEventListener('click',function(){ gc('vault-ytmember-click--'+src,true); });
   ['btn-free','btn-paid'].forEach(function(id){
     var a=document.getElementById(id);
     var u=new URL(a.href); u.searchParams.set('utm_source','biolink_'+src); a.href=u.toString();
