@@ -39,6 +39,7 @@ monday_utc_ts = monday_et.astimezone(timezone.utc).timestamp()
 LOG.parent.mkdir(parents=True, exist_ok=True)
 new_log = not LOG.exists()
 new, booked_week, fail = 0, 0, False
+all_paid = []
 
 with LOG.open("a", newline="") as f:
     w = csv.writer(f)
@@ -55,6 +56,9 @@ with LOG.open("a", newline="") as f:
         paid = [s for s in d["data"] if s.get("payment_status") == "paid"]
         if plink == VIDEO_PLINK:
             booked_week = sum(1 for s in paid if s.get("created", 0) >= monday_utc_ts)
+        for s in paid:
+            addr = (s.get("customer_details") or {}).get("address") or {}
+            all_paid.append((s.get("created", 0), tier, addr.get("state") or ""))
         for s in paid:
             if s["id"] in seen:
                 continue
@@ -87,15 +91,35 @@ if fail:
     raise SystemExit(1)
 
 slots_left = max(0, CAP - booked_week)
+
+TIER_NAMES = {"VIDEO $49": "a personal video", "QUESTION $19": "a question for dez", "CALL $299": "a private call"}
+all_paid.sort(key=lambda x: -x[0])
+recent = [{"t": TIER_NAMES.get(tr, "an order"), "st": st, "ts": ts} for ts, tr, st in all_paid[:5]]
+
+views_today = video_views_today = None
+try:
+    gtok = secret("secrets/goatcounter.env", "GOATCOUNTER_TOKEN")
+    today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+    gv = json.loads(subprocess.run(["curl", "-s",
+        f"https://dez2fly.goatcounter.com/api/v0/stats/hits?start={today}&end={today}&limit=60",
+        "-H", f"Authorization: Bearer {gtok}"], capture_output=True, text=True).stdout)
+    hits = gv.get("hits", [])
+    views_today = sum(h.get("count", 0) for h in hits)
+    video_views_today = sum(h.get("count", 0) for h in hits if "/video-page" in h.get("path", ""))
+except Exception as e:
+    print("goatcounter views failed:", e, file=sys.stderr)
+
 stats_path = REPO / "stats.json"
 try:
     stats = json.loads(stats_path.read_text())
 except Exception:
     stats = {}
-if stats.get("slots_left") != slots_left or stats.get("booked_week") != booked_week or stats.get("slots_cap") != CAP:
-    stats["slots_left"] = slots_left
-    stats["booked_week"] = booked_week
-    stats["slots_cap"] = CAP
+new_fields = {"slots_left": slots_left, "booked_week": booked_week, "slots_cap": CAP, "recent": recent}
+if views_today is not None:
+    new_fields["views_today"] = views_today
+    new_fields["video_views_today"] = video_views_today
+if any(stats.get(k) != v for k, v in new_fields.items()):
+    stats.update(new_fields)
     stats_path.write_text(json.dumps(stats, indent=1) + "\n")
     subprocess.run(["git", "-C", str(REPO), "pull", "-q", "--rebase", "--autostash", "origin", "main"])
     subprocess.run(["git", "-C", str(REPO), "add", "stats.json"], capture_output=True)

@@ -204,18 +204,36 @@
     }
     paint(); setInterval(paint, 1000);
 
-    if(s.booked_week>=1 && !sessionStorage.getItem('vtoast')){
-      sessionStorage.setItem('vtoast','1');
-      setTimeout(function(){
-        var t=document.createElement('div'); t.className='toast';
-        var b=document.createElement('b'); b.textContent=s.booked_week+' of the crew';
-        t.appendChild(document.createTextNode('🎥 '));
-        t.appendChild(b);
-        t.appendChild(document.createTextNode(' booked this week already'));
-        document.getElementById('toasts').appendChild(t);
-        requestAnimationFrame(function(){requestAnimationFrame(function(){t.classList.add('show');});});
-        setTimeout(function(){t.classList.remove('show');setTimeout(function(){t.remove();},400);},6000);
-      },5000);
+    // real-activity popups: every one of these comes from actual data, never invented
+    if(!sessionStorage.getItem('vtoast')){
+      var pops=[];
+      if(s.booked_week>=1) pops.push(['🎥', s.booked_week+' of the crew', ' booked this week already']);
+      (s.recent||[]).forEach(function(o){
+        var ageH=(Date.now()/1000-o.ts)/3600;
+        if(ageH>168) return;
+        var ago= ageH<1? 'just now' : ageH<24? Math.round(ageH)+'h ago' : Math.round(ageH/24)+'d ago';
+        pops.push(['💸','somebody'+(o.st?' from '+o.st:''), ' booked '+o.t+' · '+ago]);
+      });
+      if(s.video_views_today>=15) pops.push(['👀', s.video_views_today+' people', ' checked this page today']);
+      else if(s.views_today>=40) pops.push(['👀', s.views_today+' people', ' on the site today']);
+      if(pops.length){
+        sessionStorage.setItem('vtoast','1');
+        var pi=0;
+        var showPop=function(){
+          if(pi>=Math.min(pops.length,3)) return;
+          var pk=pops[pi++];
+          var t=document.createElement('div'); t.className='toast';
+          var b=document.createElement('b'); b.textContent=pk[1];
+          t.appendChild(document.createTextNode(pk[0]+' '));
+          t.appendChild(b);
+          t.appendChild(document.createTextNode(pk[2]));
+          document.getElementById('toasts').appendChild(t);
+          requestAnimationFrame(function(){requestAnimationFrame(function(){t.classList.add('show');});});
+          setTimeout(function(){t.classList.remove('show');setTimeout(function(){t.remove();},400);},6000);
+          setTimeout(showPop,8500);
+        };
+        setTimeout(showPop,4500);
+      }
     }
   }).catch(function(){});
 })();
