@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 """Poll Stripe for new orders across all three tiers: ping Dez's Telegram,
 log to a private CSV, and keep the LIVE video-slots counter truthful.
-Runs every 15 min via launchd. slots_left = CAP - paid VIDEO orders since Monday 00:00 ET."""
+Runs every 15 min via launchd. slots_left = CAP - paid VIDEO orders since Monday 00:00 ET.
+Also writes total_bookings (cumulative all-time paid VIDEO orders) so the site's
+"$49 locks at $75 after the first 100 bookings" counter stays real."""
 import csv, json, pathlib, subprocess, sys
 from datetime import datetime, timedelta, timezone
 from zoneinfo import ZoneInfo
@@ -45,6 +47,22 @@ def klaviyo_event(email, metric, props):
         "-H", f"Authorization: Klaviyo-API-Key {KLAVIYO}", "-H", "revision: 2024-10-15",
         "-H", "Content-Type: application/json", "-d", _j.dumps(body)], capture_output=True)
 
+def fetch_sessions(plink):
+    """Every checkout session for a payment link (paginated — Stripe caps a page at 100)."""
+    sessions, after = [], None
+    while True:
+        url = f"https://api.stripe.com/v1/checkout/sessions?payment_link={plink}&limit=100"
+        if after:
+            url += f"&starting_after={after}"
+        d = json.loads(subprocess.run(["curl", "-s", url, "-u", f"{SKEY}:"],
+                                      capture_output=True, text=True).stdout)
+        if "data" not in d:
+            return None, d.get("error", {}).get("message")
+        sessions.extend(d["data"])
+        if not d.get("has_more") or not d["data"]:
+            return sessions, None
+        after = d["data"][-1]["id"]
+
 seen = set()
 if STATE.exists():
     try: seen = set(json.loads(STATE.read_text()))
@@ -56,7 +74,7 @@ monday_utc_ts = monday_et.astimezone(timezone.utc).timestamp()
 
 LOG.parent.mkdir(parents=True, exist_ok=True)
 new_log = not LOG.exists()
-new, booked_week, fail = 0, 0, False
+new, booked_week, video_total, fail = 0, 0, 0, False
 all_paid = []
 
 with LOG.open("a", newline="") as f:
@@ -64,16 +82,15 @@ with LOG.open("a", newline="") as f:
     if new_log:
         w.writerow(["ordered_utc", "tier", "for", "character", "details", "buyer_email", "amount", "status", "session_id"])
     for plink, tier in PLINKS.items():
-        out = subprocess.run(["curl", "-s", f"https://api.stripe.com/v1/checkout/sessions?payment_link={plink}&limit=100",
-                              "-u", f"{SKEY}:"], capture_output=True, text=True).stdout
-        d = json.loads(out)
-        if "data" not in d:
-            print(f"stripe error ({tier}):", d.get("error", {}).get("message"), file=sys.stderr)
+        sessions, err = fetch_sessions(plink)
+        if sessions is None:
+            print(f"stripe error ({tier}):", err, file=sys.stderr)
             fail = True
             continue
-        paid = [s for s in d["data"] if s.get("payment_status") == "paid"]
+        paid = [s for s in sessions if s.get("payment_status") == "paid"]
         if plink == VIDEO_PLINK:
             booked_week = sum(1 for s in paid if s.get("created", 0) >= monday_utc_ts)
+            video_total = len(paid)  # all-time — drives the $75 lock at 100 bookings
         for s in paid:
             addr = (s.get("customer_details") or {}).get("address") or {}
             all_paid.append((s.get("created", 0), tier, addr.get("state") or ""))
@@ -136,7 +153,8 @@ try:
     stats = json.loads(stats_path.read_text())
 except Exception:
     stats = {}
-new_fields = {"slots_left": slots_left, "booked_week": booked_week, "slots_cap": CAP, "recent": recent}
+new_fields = {"slots_left": slots_left, "booked_week": booked_week, "slots_cap": CAP, "recent": recent,
+              "total_bookings": video_total}
 if views_today is not None:
     new_fields["views_today"] = views_today
     new_fields["video_views_today"] = video_views_today

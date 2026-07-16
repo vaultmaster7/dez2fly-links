@@ -127,10 +127,12 @@
     <div class="slots" id="tslots"></div>
     <a class="tbtn" id="buy49" href="https://buy.stripe.com/5kQeVcgWJfBe9VNcjp2go00">book mine — $49 <span style="text-decoration:line-through;opacity:.55;font-weight:400">$75</span></a>
     <div class="fine">secure stripe checkout · no account needed</div>
-    <div class="gbox">🛡 <b>THE 7-DAY DELIVERY GUARANTEE</b> — your video lands within 7 days, or one email gets your money back. no questions, no exit interview, no hard feelings.</div>
+    <div class="gbox">🛡 <b>THE 7-DAY DELIVERY GUARANTEE</b> — your video lands within 7 days, or one email gets your money back. no questions, no exit interview, no hard feelings. and if it misses, i reshoot it or your money walks back. one dm. no forms.</div>
     <div class="fine" style="margin-top:10px;font-style:italic;font-size:11px">"Been watching dude for 5 years and he still built" — @Corykenshinmadad, youtube</div>
-    <div class="fine">launch price — this goes to $75 once weeks start selling out. you're early 🪳</div>
+    <div class="fine">launch price $49 — locks at $75 after the first 100 bookings. counter's real, like everything else here.</div>
+    <div class="fine" id="lockcount" style="display:none;color:var(--amber)"></div>
     <div class="fine">split it 3 ways in the group chat = legend for $16</div>
+    <a class="fine" id="waitlist" href="/?s=videowait#grab" style="display:none;color:var(--amber);text-decoration:underline">sold out this week. drop your email — first crack when slots reset monday →</a>
   </div>
 
   <div class="tier" id="t19">
@@ -199,6 +201,7 @@
     var a=document.getElementById(id);
     a.addEventListener('click',function(){ gc({path:'buy-'+id+'--'+src,event:true}); });
   });
+  document.getElementById('waitlist').addEventListener('click',function(){ gc({path:'videowait-click--'+src,event:true}); });
 
   var resetAt=(function(){
     var et=new Date(new Date().toLocaleString('en-US',{timeZone:'America/New_York'}));
@@ -228,6 +231,7 @@
         document.getElementById('buy49').style.opacity=.55;
         document.getElementById('stickybtn').textContent='videos sold out — ask a question instead ($19)';
         document.getElementById('stickybtn').href=document.getElementById('buy19').href;
+        document.getElementById('waitlist').style.display='block';
       } else {
         document.getElementById('uslots').textContent=left+' of '+cap+' video slots left this week';
         document.getElementById('ureset').textContent='slots reset in '+cd;
@@ -237,6 +241,13 @@
       }
     }
     paint(); setInterval(paint, 1000);
+
+    // $75 lock counter — cumulative real bookings from stripe, same staleness gate as everything else
+    if(typeof s.total_bookings==='number' && s.total_bookings>=0 && s.total_bookings<100){
+      var lk=document.getElementById('lockcount');
+      lk.textContent=s.total_bookings+' of 100 launch-price bookings gone · '+(100-s.total_bookings)+' left before $75';
+      lk.style.display='block';
+    }
 
     // real-activity popups: every one of these comes from actual data, never invented
     if(!sessionStorage.getItem('vtoast')){

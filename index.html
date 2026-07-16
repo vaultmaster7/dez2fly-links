@@ -2,12 +2,12 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>Dez2fly — every link</title>
+<title>Dez2fly — nonstop funny. 5.4M+ deep</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#0d0a1a">
-<meta name="description" content="Dez2fly — the Vault, the network, the drops. Every link in one place.">
-<meta property="og:title" content="Dez2fly — every link">
-<meta property="og:description" content="The Vault, the 24/7 network, the email list. Everything in one place.">
+<meta name="description" content="the latest drop, the vault (18+), a personal video from uncle, the discord. everything, one page.">
+<meta property="og:title" content="Dez2fly — nonstop funny. 5.4M+ deep">
+<meta property="og:description" content="the latest drop, the vault (18+), a personal video from uncle, the discord. everything, one page.">
 <meta property="og:image" content="https://2flycrew.co/og.png">
 <meta property="og:url" content="https://2flycrew.co/">
 <meta property="og:type" content="website">
@@ -166,8 +166,8 @@
   <div class="grab" id="grab">
     <div class="gh">
       <span class="ico">🔓</span>
-      <span class="tx"><b>The Email List</b>
-      <span>the uncle clip that can't go on youtube — instant, in your inbox. then every drop first.</span>
+      <span class="tx"><b>the clip that can't go on youtube 🔒</b>
+      <span id="grabbody">uncle, uncut — instant, in your inbox. then every drop first.</span>
       <span class="statline" id="st-list"></span></span>
     </div>
     <form id="grabform" novalidate>
@@ -175,6 +175,7 @@
       <input type="email" id="gemail" placeholder="your email" autocomplete="email" enterkeyhint="go" autocapitalize="off" autocorrect="off" spellcheck="false" required>
       <button type="submit" id="gbtn">send me the clip</button>
     </form>
+    <div class="statline" id="st-grab" style="margin-top:9px"></div>
     <div class="msg" id="gmsg"></div>
     <div style="font-family:var(--mono);font-size:10px;color:var(--dim);margin-top:8px">instant delivery · out in one tap, anytime</div>
   </div>
@@ -191,14 +192,17 @@
     <span class="ico">💀</span>
     <span class="tx"><b>The Vault — uncut side 🔞</b>
     <span>Uncle Origin Pt 2 out now. free taste inside. no rails 🪳</span>
-    <span class="statline" id="st-vault"></span></span>
+    <span class="statline" id="st-vault"></span>
+    <span style="font-family:var(--mono);font-size:10px;color:var(--dim);margin-top:4px">"the old dez2fly we needed" — <span style="display:inline;color:var(--amber)">@saintgoski</span> · youtube comment · 32 likes</span></span>
     <span class="go">→</span>
   </a>
 
   <a class="card" id="videocard" href="/video.html">
     <span class="ico">🎥</span>
     <span class="tx"><b>A personal video — from me or any character 🎥</b>
-    <span>birthdays. roasts. revenge. clean or unhinged — your call. launch price $49 (goes to $75) · tiers from $19 🪳</span>
+    <span>birthdays. roasts. revenge. clean or unhinged — your call. launch price $49 — locks at $75 at 100 bookings · tiers from $19 🪳</span>
+    <span>doesn't hit? redo or refund. one dm, done.</span>
+    <span>booked this week = delivered inside 7 days. that's what the weekly slots protect.</span>
     <span class="statline" id="st-slots"></span></span>
     <span class="go">→</span>
   </a>
@@ -276,10 +280,49 @@
   var ORDERS={
     live:['header','#latest','#grab','#vaultcard','#videocard','#crew','a.card.vault','a[href*="discord.gg"]','a[href*="Dez2flyAnimated"]','.sect','.socials','footer'],
     yt:null, ttdm:['header','#latest','#vaultcard','#grab','#videocard','#crew','a.card.vault','a[href*="discord.gg"]','a[href*="Dez2flyAnimated"]','.sect','.socials','footer'],
-    igdm:null
+    igdm:null,
+    vaultback:['header','#grab','#videocard','#latest','#crew','a.card.vault','a[href*="discord.gg"]','a[href*="Dez2flyAnimated"]','.sect','.socials','#vaultcard','footer']
   };
   ORDERS.yt=ORDERS.live; ORDERS.igdm=ORDERS.ttdm;
   if(ORDERS[src]){ ORDERS[src].forEach(function(sel){var el=wrap.querySelector(sel)||document.querySelector(sel);if(el&&el.parentElement===wrap)wrap.appendChild(el);}); }
+
+  // vaultback: they just saw the vault pitch and walked — flip the page to the free-clip ask
+  if(src==='vaultback'){
+    var bn=document.getElementById('banner');
+    bn.href='#grab';
+    bn.querySelector('span').textContent="back from the vault? 💀 the uncle clip that can't go on youtube — free, straight to your inbox →";
+    bn.addEventListener('click',function(ev){
+      ev.preventDefault();
+      document.getElementById('grab').scrollIntoView({behavior:'smooth',block:'center'});
+      setTimeout(function(){var ge=document.getElementById('gemail');if(ge&&ge.offsetParent)ge.focus();},450);
+    });
+    var gb=document.getElementById('grabbody');
+    if(gb) gb.textContent="not ready for the vault? fine. the uncle clip that can't go on youtube — free, instant, in your inbox.";
+    gc({path:'variant-vaultback',event:true,title:'vaultback variant shown'});
+  }
+
+  // returning subscriber: already on the list — stop re-asking for the email, point at the vault
+  var isCrew=false;
+  try{isCrew=localStorage.getItem('crew')==='1';}catch(e){}
+  if(isCrew && src!=='vaultback'){
+    var grabEl=document.getElementById('grab');
+    var grabKids=Array.prototype.slice.call(grabEl.children);
+    grabKids.forEach(function(el){el.style.display='none';});
+    var swap=document.createElement('div');
+    swap.innerHTML="<div class='gh'><span class='ico'>🔓</span><span class='tx'><b>you're already on the list 🪳</b>"+
+      "<span><a id='crewvault' href='/vault.html?s="+encodeURIComponent(src)+"' style='display:inline;color:var(--amber)'>inbox: handled. the vault: not yet. uncle origin pt 2 is inside — free taste, no rails →</a></span></span></div>"+
+      "<div style='font-family:var(--mono);font-size:10px;color:var(--dim);margin-top:8px'><a id='crewreset' href='#' style='color:var(--dim)'>different email? sign up here</a></div>";
+    grabEl.appendChild(swap);
+    gc({path:'crewswap-seen--'+src,event:true});
+    swap.querySelector('#crewvault').addEventListener('click',function(){gc({path:'crewswap-click--'+src,event:true});});
+    swap.querySelector('#crewreset').addEventListener('click',function(ev){
+      ev.preventDefault();
+      swap.parentNode.removeChild(swap);
+      grabKids.forEach(function(el){el.style.display='';});
+      gc({path:'crewswap-reset--'+src,event:true});
+      var ge=document.getElementById('gemail'); if(ge)ge.focus();
+    });
+  }
 
   // section visibility: which cards do people actually SEE (once per session each)
   if('IntersectionObserver' in window){
@@ -352,11 +395,21 @@
       f.style.cssText='width:100%;aspect-ratio:16/9;border:0;display:block';
       document.getElementById('lthumb').replaceWith(f);
       var meta=el.querySelector('.lmeta .ltitle');
-      if(meta) meta.innerHTML='<span style="color:#8d81b8">watching here counts on youtube too — </span><u>open in the app →</u>';
+      if(meta){
+        meta.innerHTML='<span style="color:#8d81b8">watching here counts on youtube too — </span><u>open in the app →</u><span style="color:#8d81b8"> · that one\'s clean. </span><u id="postplaygrab">the one that isn\'t is free →</u>';
+        meta.style.webkitLineClamp='4';
+        document.getElementById('postplaygrab').addEventListener('click',function(ev){
+          ev.preventDefault(); ev.stopPropagation();
+          gc({path:'postplay-grab--'+src,event:true});
+          document.getElementById('grab').scrollIntoView({behavior:'smooth',block:'center'});
+          setTimeout(function(){var ge=document.getElementById('gemail');if(ge&&ge.offsetParent)ge.focus();},450);
+        });
+      }
     });
   }).catch(function(){});
 
   // ---- live stats + social-proof toasts (real numbers, refreshed every 6h) ----
+  var vaultN=0; // staleness-gated vault member count, reused in the signup success line
   fetch('stats.json',{cache:'no-store'}).then(function(r){return r.json()}).then(function(s){
     if(!s) return;
     // staleness gate: if the updater stops running, quietly show less instead of lying
@@ -369,13 +422,14 @@
     var joined=fresh?clean(s.joined_7d):0;
     var put=function(id,txt){var el=document.getElementById(id);if(el&&txt){el.textContent=txt;el.style.display='block';}};
     if(subs)  put('st-yt', subs+' subscribers strong');
-    if(vault) put('st-vault', vault+' members inside');
+    if(vault){ put('st-vault', vault+' members inside'); vaultN=vault; }
     if(dc)    put('st-dc', dc+' in the server');
     if(list)  put('st-list', (joined>=10? joined+' joined this week · ':'')+list.toLocaleString('en-US')+'+ deep');
+    if(list)  put('st-grab', (joined>=10? joined+' joined this week. ':'')+list.toLocaleString('en-US')+'+ roaches deep.');
 
     // live slots counter + real Monday-reset countdown (America/New_York week)
     if(typeof s.slots_left === 'number' && fresh){
-      var cap = s.slots_cap || 10;
+      var cap = s.slots_cap || 5;
       var et = new Date(new Date().toLocaleString('en-US', {timeZone: 'America/New_York'}));
       var days = ((8 - et.getDay()) % 7) || 7;
       var reset = new Date(et); reset.setDate(et.getDate() + days); reset.setHours(0,0,0,0);
@@ -460,7 +514,11 @@
       clearTimeout(tmo);
       if(r.ok||r.status===202){
         msg.className='msg ok';
-        msg.innerHTML="clip's on the way — check your inbox 🪳 while it lands: <a href='/vault.html?s="+src+"' style='color:#ffb648'>uncle origin pt 2 is in the vault →</a>";
+        if(src==='vaultback'){
+          msg.innerHTML="clip's on the way — check your inbox 🪳 the vault's not going anywhere. we'll leave a light on.";
+        } else {
+          msg.innerHTML="clip's on the way — check your inbox 🪳 while it lands: <a href='/vault.html?s="+src+"' style='color:#ffb648'>uncle origin pt 2 is in the vault"+(vaultN?". "+vaultN+" already inside":"")+" →</a>";
+        }
         form.style.display='none';
         localStorage.setItem('crew','1');
         gc({path:'signup--'+src,event:true,title:'email signup ('+src+')'});
