@@ -104,7 +104,7 @@ with LOG.open("a", newline="") as f:
             if tier.startswith("VIDEO"):
                 body = (f"From: {fields.get('character', '?').upper()}\nFor: {fields.get('who', '?')}\n"
                         f"Notes: {fields.get('details', '?')}\n\nDeliver to: {email}\n"
-                        f"(reply to their Stripe receipt with the video — 7 day promise)")
+                        f"(reply to their Stripe receipt with the video — 14 business day promise)")
             elif tier.startswith("QUESTION"):
                 body = (f"Answered by: {fields.get('who', '?').upper()}\nQuestion: {fields.get('question', '?')}\n\n"
                         f"Reply to: {email}\n(voice note + text, 3 day promise)")
