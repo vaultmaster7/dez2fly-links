@@ -26,6 +26,24 @@ def secret(path, key):
 
 SKEY = secret("secrets/stripe.env", "STRIPE_RESTRICTED_KEY")
 TG = secret("channels/telegram/.env", "TELEGRAM_BOT_TOKEN")
+try:
+    KLAVIYO = secret("secrets/klaviyo.env", "KLAVIYO_API_KEY")
+except SystemExit:
+    KLAVIYO = None
+
+def klaviyo_event(email, metric, props):
+    """Push a server event to Klaviyo so buyers trigger post-purchase flows + become segmentable."""
+    if not KLAVIYO or not email or email == "?":
+        return
+    body = {"data": {"type": "event", "attributes": {
+        "properties": props,
+        "metric": {"data": {"type": "metric", "attributes": {"name": metric}}},
+        "profile": {"data": {"type": "profile", "attributes": {"email": email}}},
+    }}}
+    import json as _j
+    subprocess.run(["curl", "-s", "-o", "/dev/null", "-X", "POST", "https://a.klaviyo.com/api/events/",
+        "-H", f"Authorization: Klaviyo-API-Key {KLAVIYO}", "-H", "revision: 2024-10-15",
+        "-H", "Content-Type: application/json", "-d", _j.dumps(body)], capture_output=True)
 
 seen = set()
 if STATE.exists():
@@ -85,6 +103,10 @@ with LOG.open("a", newline="") as f:
                             fields.get("details", fields.get("question", "?")), email, amount, "PENDING", s["id"]])
                 seen.add(s["id"])
                 new += 1
+                metric = {"VIDEO $49": "Ordered Personal Video", "QUESTION $19": "Ordered a Question",
+                          "CALL $299": "Booked a Call"}.get(tier, "Ordered Something")
+                klaviyo_event(email, metric, {"tier": tier, "amount": amount,
+                    "character": fields.get("character", ""), "for": fields.get("who", ""), "$value": amount})
 
 STATE.write_text(json.dumps(sorted(seen)))
 if fail:
