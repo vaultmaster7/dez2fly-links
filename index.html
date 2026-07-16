@@ -13,6 +13,48 @@
 <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://2flycrew.co/og.png">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="apple-touch-icon" href="/og.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Person",
+      "@id": "https://2flycrew.co/#dez2fly",
+      "name": "Dez2fly",
+      "url": "https://2flycrew.co/",
+      "description": "Comedy creator. Skits, characters, and the 24/7 2FLY Network livestream.",
+      "sameAs": [
+        "https://www.youtube.com/@Dez2fly",
+        "https://www.youtube.com/@Dez2flyAnimated",
+        "https://www.tiktok.com/@dez2fly",
+        "https://www.instagram.com/dez2fly",
+        "https://www.instagram.com/dez2flyskits",
+        "https://www.patreon.com/Dez2fly",
+        "https://discord.gg/htTStDYfBN"
+      ]
+    },
+    {
+      "@type": "Organization",
+      "@id": "https://2flycrew.co/#org",
+      "name": "2 Fly Entertainment LLC",
+      "url": "https://2flycrew.co/",
+      "logo": "https://2flycrew.co/og.png",
+      "foundingDate": "2013",
+      "email": "2flyentllc@gmail.com",
+      "founder": { "@id": "https://2flycrew.co/#dez2fly" }
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://2flycrew.co/#site",
+      "url": "https://2flycrew.co/",
+      "name": "Dez2fly — 2flycrew.co",
+      "publisher": { "@id": "https://2flycrew.co/#org" }
+    }
+  ]
+}
+</script>
 <style>
   :root{
     --ground:#0d0a1a; --panel:#171226; --panel2:#1d1730; --edge:#2a2140;
@@ -159,7 +201,8 @@
   .socials a{display:grid;place-items:center;width:52px;height:52px;background:var(--panel);border:1px solid var(--edge);
      border-radius:13px;font-size:22px;text-decoration:none;transition:transform .18s,border-color .18s}
   .socials a:hover{transform:translateY(-2px);border-color:var(--violet)}
-  footer{margin-top:26px;text-align:center;font-family:var(--mono);font-size:10px;letter-spacing:.12em;color:var(--dim)}
+  footer{margin-top:26px;text-align:center;font-family:var(--mono);font-size:10px;letter-spacing:.12em;color:var(--dim);line-height:1.9}
+  footer a{color:var(--mute)}
   @media (prefers-reduced-motion: reduce){.tv,.live i,a.card.vault::after{animation:none}}
 </style>
 </head>
@@ -255,7 +298,7 @@
     <a href="https://www.instagram.com/dez2flyskits" aria-label="Instagram Skits">🎬</a>
   </div>
 
-  <footer>SECURE CHECKOUT VIA STRIPE ✦ © 2 FLY ENTERTAINMENT LLC ✦ EST. 2013</footer>
+  <footer>questions? <a href="mailto:2flyentllc@gmail.com">2flyentllc@gmail.com</a> — a real human (me) reads these 🪳<br>SECURE CHECKOUT VIA STRIPE ✦ © 2 FLY ENTERTAINMENT LLC ✦ EST. 2013</footer>
 </div>
 
 <div id="toasts" aria-live="polite"></div>
