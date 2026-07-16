@@ -81,22 +81,39 @@
   #latest .ltitle{font-size:13.5px;font-weight:600;line-height:1.3;
     display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 
-  /* email form */
+  /* email form (shared by the inline card + the bottom sheet) */
   .grab{background:var(--panel);border:1px solid var(--edge);border-radius:14px;padding:17px 18px;position:relative}
-  .grab .gh{display:flex;align-items:center;gap:15px;margin-bottom:12px}
-  .grab .tx b{font-size:15.5px}
-  .grab form{display:flex;gap:8px}
-  .grab input[type=email]{flex:1;background:var(--panel2);border:1px solid var(--edge);border-radius:10px;
+  .grab .gh,#sheet .gh{display:flex;align-items:center;gap:15px;margin-bottom:12px}
+  .grab .tx b,#sheet .tx b{font-size:15.5px}
+  .grab form,#sheet form{display:flex;gap:8px}
+  .grab input[type=email],#sheet input[type=email]{flex:1;background:var(--panel2);border:1px solid var(--edge);border-radius:10px;
     color:var(--ink);font:inherit;font-size:16px;padding:12px 14px;min-width:0}
-  .grab input[type=email]:focus{outline:none;border-color:var(--amber-deep)}
-  .grab input[type=email]::placeholder{color:var(--dim)}
-  .grab button{background:var(--amber);color:var(--ground);border:none;border-radius:10px;font:inherit;
+  .grab input[type=email]:focus,#sheet input[type=email]:focus{outline:none;border-color:var(--amber-deep)}
+  .grab input[type=email]::placeholder,#sheet input[type=email]::placeholder{color:var(--dim)}
+  .grab button,#sheet button[type=submit]{background:var(--amber);color:var(--ground);border:none;border-radius:10px;font:inherit;
     font-weight:700;font-size:14px;padding:12px 18px;cursor:pointer;white-space:nowrap;transition:transform .15s}
-  .grab button:active{transform:scale(.96)}
-  .grab .hp{position:absolute;left:-9999px;opacity:0;height:0;width:0}
-  .grab .msg{font-size:12.5px;margin-top:10px;display:none}
-  .grab .msg.ok{color:#7fc98a;display:block}
-  .grab .msg.err{color:var(--hot);display:block}
+  .grab button:active,#sheet button[type=submit]:active{transform:scale(.96)}
+  .grab .hp,#sheet .hp{position:absolute;left:-9999px;opacity:0;height:0;width:0}
+  .grab .msg,#sheet .msg{font-size:12.5px;margin-top:10px;display:none}
+  .grab .msg.ok,#sheet .msg.ok{color:#7fc98a;display:block}
+  .grab .msg.err,#sheet .msg.err{color:var(--hot);display:block}
+
+  /* typo-suggest ("did you mean …@gmail.com?") */
+  .sug{display:none;font-size:12.5px;color:var(--mute);margin-top:9px;cursor:pointer}
+  .sug.on{display:block}
+  .sug b{color:var(--amber);font-weight:600;text-decoration:underline}
+
+  /* bottom-sheet capture */
+  #sheetbg{position:fixed;inset:0;z-index:11;background:rgba(6,4,14,.62);opacity:0;pointer-events:none;transition:opacity .3s ease}
+  #sheetbg.on{opacity:1;pointer-events:auto}
+  #sheet{position:fixed;left:50%;bottom:0;z-index:12;width:100%;max-width:460px;
+    transform:translate(-50%,105%);background:var(--panel);border:1px solid var(--edge);border-bottom:none;
+    border-radius:18px 18px 0 0;padding:12px 18px calc(20px + env(safe-area-inset-bottom));
+    box-shadow:0 -14px 44px rgba(0,0,0,.55);transition:transform .34s cubic-bezier(.32,.72,.35,1)}
+  #sheet.on{transform:translate(-50%,0)}
+  #sheet .shhandle{width:44px;height:4px;border-radius:999px;background:var(--dim);opacity:.55;margin:0 auto 14px}
+  #shx{position:absolute;top:8px;right:10px;background:none;border:none;color:var(--mute);font-size:15px;line-height:1;padding:9px;cursor:pointer}
+  @media (prefers-reduced-motion: reduce){#sheet,#sheetbg{transition:none}}
 
   /* live stats */
   .statline{display:none;font-family:var(--mono);font-size:11px;color:var(--amber);margin-top:4px;letter-spacing:.02em}
@@ -175,6 +192,7 @@
       <input type="email" id="gemail" placeholder="your email" autocomplete="email" enterkeyhint="go" autocapitalize="off" autocorrect="off" spellcheck="false" required>
       <button type="submit" id="gbtn">send me the clip</button>
     </form>
+    <div class="sug" id="gsug"></div>
     <div class="statline" id="st-grab" style="margin-top:9px"></div>
     <div class="msg" id="gmsg"></div>
     <div style="font-family:var(--mono);font-size:10px;color:var(--dim);margin-top:8px">instant delivery · out in one tap, anytime</div>
@@ -242,6 +260,25 @@
 
 <div id="toasts" aria-live="polite"></div>
 <div id="roach" title="?">🪳</div>
+
+<div id="sheetbg" aria-hidden="true"></div>
+<div id="sheet" role="dialog" aria-modal="true" aria-labelledby="shtitle" aria-hidden="true">
+  <button id="shx" type="button" aria-label="close">✕</button>
+  <div class="shhandle" aria-hidden="true"></div>
+  <div class="gh">
+    <span class="ico">🔓</span>
+    <span class="tx"><b id="shtitle">the clip that can't go on youtube 🔒</b>
+    <span id="shbody">uncle, uncut — instant, in your inbox. then every drop first.</span></span>
+  </div>
+  <form id="shform" novalidate>
+    <input class="hp" type="text" name="website" tabindex="-1" autocomplete="off">
+    <input type="email" id="shemail" placeholder="your email" autocomplete="email" enterkeyhint="go" autocapitalize="off" autocorrect="off" spellcheck="false" required>
+    <button type="submit" id="shbtn">send me the clip</button>
+  </form>
+  <div class="sug" id="shsug"></div>
+  <div class="msg" id="shmsg"></div>
+  <div style="font-family:var(--mono);font-size:10px;color:var(--dim);margin-top:8px">instant delivery · out in one tap, anytime</div>
+</div>
 
 <script type="text/javascript">
 (function(c,l,a,r,i,t,y){
@@ -455,6 +492,7 @@
     var box=document.getElementById('toasts'), i=0, stopped=false;
     // the moment they touch the email form, the toasts shut up
     var stopToasts=function(){stopped=true;var t=box.firstChild;if(t)hide(t);};
+    window.__stopToasts=stopToasts; // the bottom sheet silences toasts if it ever opens
     document.getElementById('gemail').addEventListener('focus',stopToasts);
     document.getElementById('grabform').addEventListener('submit',stopToasts);
     var showNext=function(){
@@ -488,19 +526,72 @@
     setTimeout(showNext,4000);
   }).catch(function(){});
 
+  // ---- email validation: typo-suggest + disposable/role block (SOI stays, bounces don't) ----
+  var RX=/^[^@\s]+@[^@\s]+\.[^@\s]+$/;
+  var SUG_TARGETS=['gmail.com','yahoo.com','hotmail.com','outlook.com','icloud.com','aol.com','gmx.com','protonmail.com','proton.me'];
+  var GOOD_DOMAINS=['gmail.com','yahoo.com','hotmail.com','outlook.com','icloud.com','aol.com','gmx.com','gmx.net','gmx.de',
+    'protonmail.com','proton.me','pm.me','mail.com','me.com','mac.com','live.com','msn.com','ymail.com','rocketmail.com',
+    'googlemail.com','hey.com','fastmail.com','zoho.com','aim.com','yahoo.ca','yahoo.co.uk','hotmail.ca','hotmail.co.uk',
+    'outlook.co.uk','comcast.net','verizon.net','att.net','sbcglobal.net','cox.net','web.de','t-online.de','mail.ru',
+    'yandex.com','qq.com','naver.com','163.com'];
+  var DISPO=['mailinator','guerrillamail','guerillamail','10minutemail','tempmail','temp-mail','tmpmail','yopmail',
+    'sharklasers','grr.la','trashmail','getnada','nada.email','dispostable','maildrop','fakeinbox','mohmal','mintemail',
+    'throwawaymail','burnermail','mailnesia','emailondeck','spamgourmet','tempinbox','discard.email','33mail','moakt','tempr.','disposable'];
+  var ROLES=['noreply','no-reply','donotreply','do-not-reply','postmaster','mailer-daemon','abuse','spamtrap','webmaster','hostmaster','root','unsubscribe'];
+  var editDist=function(a,b){
+    var i,j,m=a.length,n=b.length,d=[];
+    if(Math.abs(m-n)>2) return 3; // we only care about misses of 2 or less
+    for(i=0;i<=m;i++)d[i]=[i];
+    for(j=1;j<=n;j++)d[0][j]=j;
+    for(i=1;i<=m;i++)for(j=1;j<=n;j++)
+      d[i][j]=Math.min(d[i-1][j]+1,d[i][j-1]+1,d[i-1][j-1]+(a[i-1]===b[j-1]?0:1));
+    return d[m][n];
+  };
+  var emailCheck=function(email){ // expects lowercased, RX-passing input
+    var at=email.indexOf('@'), user=email.slice(0,at), dom=email.slice(at+1);
+    if(ROLES.indexOf(user)>-1 || /^no[-_.]?reply/.test(user)) return {ok:false};
+    for(var i=0;i<DISPO.length;i++){ if(dom.indexOf(DISPO[i])>-1) return {ok:false}; }
+    if(GOOD_DOMAINS.indexOf(dom)>-1) return {ok:true};
+    var best=null,bd=3;
+    for(var j=0;j<SUG_TARGETS.length;j++){
+      var dd=editDist(dom,SUG_TARGETS[j]);
+      if(dd>0&&dd<bd){bd=dd;best=SUG_TARGETS[j];}
+    }
+    return (best&&bd<=2)?{ok:true,suggest:user+'@'+best}:{ok:true};
+  };
+  var showSug=function(el,sugg,input){
+    el.textContent='did you mean ';
+    var b=document.createElement('b'); b.textContent=sugg;
+    el.appendChild(b); el.appendChild(document.createTextNode('?'));
+    el.classList.add('on');
+    el.onclick=function(){ input.value=sugg; el.classList.remove('on'); input.focus(); gc({path:'typo-fix--'+src,event:true}); };
+  };
+  var wireLiveCheck=function(input,sugEl){ // real-time: suggest while they type, never block mid-keystroke
+    var t;
+    var run=function(){
+      var em=input.value.trim().toLowerCase();
+      if(!RX.test(em)){sugEl.classList.remove('on');return;}
+      var v=emailCheck(em);
+      if(v.suggest){
+        if(sugEl._last!==v.suggest){sugEl._last=v.suggest;gc({path:'typo-seen--'+src,event:true});}
+        showSug(sugEl,v.suggest,input);
+      } else sugEl.classList.remove('on');
+    };
+    input.addEventListener('input',function(){clearTimeout(t);t=setTimeout(run,500);});
+    input.addEventListener('blur',run);
+  };
+
   // ---- email capture -> Klaviyo (Uncle Grabber list) ----
   var form=document.getElementById('grabform'),msg=document.getElementById('gmsg'),btn=document.getElementById('gbtn');
-  var gemail=document.getElementById('gemail');
+  var gemail=document.getElementById('gemail'),gsug=document.getElementById('gsug');
   gemail.addEventListener('focus',function(){ if(!this._t){this._t=1;gc({path:'form-focus--'+src,event:true});} });
-  form.addEventListener('submit',function(e){
-    e.preventDefault();
-    if(form.querySelector('.hp').value) return; // bot trap
-    var email=gemail.value.trim();
-    if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){
-      msg.className='msg err'; msg.textContent='that email looks off — check it?';
-      gemail.focus(); gc({path:'signup-invalid--'+src,event:true}); return;
-    }
-    btn.disabled=true; btn.textContent='...';
+  wireLiveCheck(gemail,gsug);
+  var okHTML=function(){
+    return src==='vaultback'
+      ? "clip's on the way — check your inbox 🪳 the vault's not going anywhere. we'll leave a light on."
+      : "clip's on the way — check your inbox 🪳 while it lands: <a href='/vault.html?s="+src+"' style='color:#ffb648'>uncle origin pt 2 is in the vault"+(vaultN?". "+vaultN+" already inside":"")+" →</a>";
+  };
+  var subscribeK=function(email,surface,onOk,onErr){
     var ctrl=new AbortController();
     var tmo=setTimeout(function(){ctrl.abort();},15000);
     fetch('https://a.klaviyo.com/client/subscriptions/?company_id=YcE5u6',{
@@ -508,27 +599,148 @@
       headers:{'Content-Type':'application/json','revision':'2024-10-15'},
       body:JSON.stringify({data:{type:'subscription',attributes:{
         custom_source:'2flycrew.co ('+src+')',
-        profile:{data:{type:'profile',attributes:{email:email,properties:{'Signup Source':'biolink_'+src,'Signup Page':'2flycrew.co'}}}}
+        profile:{data:{type:'profile',attributes:{email:email,properties:{'Signup Source':'biolink_'+src,'Signup Page':'2flycrew.co','Signup Surface':surface}}}}
       },relationships:{list:{data:{type:'list',id:'XA6qcE'}}}}})
     }).then(function(r){
       clearTimeout(tmo);
-      if(r.ok||r.status===202){
-        msg.className='msg ok';
-        if(src==='vaultback'){
-          msg.innerHTML="clip's on the way — check your inbox 🪳 the vault's not going anywhere. we'll leave a light on.";
-        } else {
-          msg.innerHTML="clip's on the way — check your inbox 🪳 while it lands: <a href='/vault.html?s="+src+"' style='color:#ffb648'>uncle origin pt 2 is in the vault"+(vaultN?". "+vaultN+" already inside":"")+" →</a>";
-        }
-        form.style.display='none';
-        localStorage.setItem('crew','1');
-        gc({path:'signup--'+src,event:true,title:'email signup ('+src+')'});
-      } else { throw new Error(); }
-    }).catch(function(){
-      clearTimeout(tmo);
+      if(r.ok||r.status===202){ onOk(); } else { throw new Error(); }
+    }).catch(function(){ clearTimeout(tmo); onErr(); });
+  };
+  var gateEmail=function(email,warnedHolder,sugEl,input,msgEl){ // shared submit gate; returns true = clear to send
+    if(!RX.test(email)){
+      msgEl.className='msg err'; msgEl.textContent='that email looks off — check it?';
+      input.focus(); gc({path:'signup-invalid--'+src,event:true}); return false;
+    }
+    var v=emailCheck(email.toLowerCase());
+    if(!v.ok){
+      msgEl.className='msg err'; msgEl.textContent='use a real inbox so the clip actually reaches you 🪳';
+      input.focus(); gc({path:'signup-blocked--'+src,event:true}); return false;
+    }
+    if(v.suggest && warnedHolder._warned!==email){ // warn once; same value resubmitted = they mean it
+      warnedHolder._warned=email;
+      showSug(sugEl,v.suggest,input);
+      msgEl.className='msg err'; msgEl.textContent="double-check that address — tap the fix below, or send again if it's really yours";
+      gc({path:'typo-warn--'+src,event:true}); return false;
+    }
+    sugEl.classList.remove('on');
+    return true;
+  };
+  form.addEventListener('submit',function(e){
+    e.preventDefault();
+    if(form.querySelector('.hp').value) return; // bot trap
+    var email=gemail.value.trim();
+    if(!gateEmail(email,form,gsug,gemail,msg)) return;
+    btn.disabled=true; btn.textContent='...';
+    subscribeK(email,'inline',function(){
+      msg.className='msg ok'; msg.innerHTML=okHTML();
+      form.style.display='none';
+      try{localStorage.setItem('crew','1');}catch(err){}
+      window.__signed=1;
+      gc({path:'signup--'+src,event:true,title:'email signup ('+src+')'});
+    },function(){
       msg.className='msg err'; msg.textContent='something hiccuped — try once more';
       btn.disabled=false; btn.textContent='send me the clip';
       gc({path:'signup-err--'+src,event:true});
     });
+  });
+
+  // ---- bottom-sheet capture: one interrupt per session, hard-suppressed ----
+  var sheet=document.getElementById('sheet'),sheetbg=document.getElementById('sheetbg');
+  var shform=document.getElementById('shform'),shmsg=document.getElementById('shmsg'),shbtn=document.getElementById('shbtn');
+  var shemail=document.getElementById('shemail'),shsug=document.getElementById('shsug');
+  var sheetOpen=false,sheetDone=false,armed=false;
+  setTimeout(function(){armed=true;},4000); // exit-intent doesn't jump instant bouncers
+  wireLiveCheck(shemail,shsug);
+  var canSheet=function(){
+    try{ if(localStorage.getItem('crew')==='1') return false; }catch(e){} // already on the list
+    if(window.__signed) return false;                                     // signed up this session
+    if(sheetDone||sheetOpen) return false;                                // one interrupt per session, period
+    try{ if(sessionStorage.getItem('sheet')==='1') return false; }catch(e){}
+    if(document.getElementById('toasts').children.length) return false;   // a toast is on screen right now
+    if(gemail._t||document.activeElement===gemail||gemail.value) return false; // they're already on the inline form
+    if(document.querySelector('#latest iframe')) return false;            // mid-video — don't interrupt the watch
+    return true;
+  };
+  var escFn=function(e){ if(e.key==='Escape') closeSheet('esc'); };
+  var closeSheet=function(how){
+    if(!sheetOpen) return;
+    sheetOpen=false;
+    sheet.classList.remove('on'); sheetbg.classList.remove('on');
+    sheet.setAttribute('aria-hidden','true');
+    document.removeEventListener('keydown',escFn);
+    if(how!=='signup') gc({path:'overlay-dismiss--'+src,event:true,title:'overlay dismiss ('+src+')'});
+  };
+  var openSheet=function(){
+    if(!canSheet()) return;
+    sheetOpen=true; sheetDone=true;
+    clearTimeout(dwellT);
+    try{sessionStorage.setItem('sheet','1');}catch(e){}
+    if(window.__stopToasts) window.__stopToasts();
+    var gb=document.getElementById('grabbody');
+    if(gb&&gb.textContent) document.getElementById('shbody').textContent=gb.textContent; // stays in sync with the vaultback variant
+    sheet.setAttribute('aria-hidden','false');
+    sheetbg.classList.add('on'); sheet.classList.add('on');
+    document.addEventListener('keydown',escFn);
+    gc({path:'overlay-view--'+src,event:true,title:'overlay view ('+src+')'});
+  };
+  document.getElementById('shx').addEventListener('click',function(){closeSheet('x');});
+  sheetbg.addEventListener('click',function(){closeSheet('outside');});
+  // swipe-down to dismiss (ignores touches that start on the input/button)
+  var tY=null,tD=0;
+  sheet.addEventListener('touchstart',function(e){
+    var tag=(e.target.tagName||'');
+    if(tag==='INPUT'||tag==='BUTTON'||tag==='A'){tY=null;return;}
+    tY=e.touches[0].clientY;tD=0;sheet.style.transition='none';
+  },{passive:true});
+  sheet.addEventListener('touchmove',function(e){
+    if(tY===null)return;
+    tD=e.touches[0].clientY-tY;
+    if(tD>0)sheet.style.transform='translate(-50%,'+tD+'px)';
+  },{passive:true});
+  sheet.addEventListener('touchend',function(){
+    if(tY===null)return;
+    sheet.style.transition='';sheet.style.transform='';
+    if(tD>80)closeSheet('swipe');
+    tY=null;
+  });
+  // sheet submit: same gate, same Klaviyo POST, same success voice as the inline card
+  shform.addEventListener('submit',function(e){
+    e.preventDefault();
+    if(shform.querySelector('.hp').value) return; // bot trap
+    var email=shemail.value.trim();
+    if(!gateEmail(email,shform,shsug,shemail,shmsg)) return;
+    shbtn.disabled=true; shbtn.textContent='...';
+    subscribeK(email,'overlay',function(){
+      shmsg.className='msg ok'; shmsg.innerHTML=okHTML();
+      shform.style.display='none';
+      try{localStorage.setItem('crew','1');}catch(err){}
+      window.__signed=1;
+      gc({path:'overlay-signup--'+src,event:true,title:'overlay signup ('+src+')'});
+      msg.className='msg ok'; msg.innerHTML=okHTML(); form.style.display='none'; // keep the page honest after the sheet closes
+      setTimeout(function(){closeSheet('signup');},6500);
+    },function(){
+      shmsg.className='msg err'; shmsg.textContent='something hiccuped — try once more';
+      shbtn.disabled=false; shbtn.textContent='send me the clip';
+      gc({path:'signup-err--'+src,event:true});
+    });
+  });
+  // triggers: ~12s dwell OR 60% scroll depth OR exit intent — first one through the door wins
+  var dwellT=setTimeout(openSheet,12000);
+  var maxY=window.pageYOffset,lastY=maxY,lastT=Date.now();
+  window.addEventListener('scroll',function(){
+    if(sheetDone) return;
+    var y=window.pageYOffset,now=Date.now(),doc=document.documentElement;
+    if(y>maxY)maxY=y;
+    if((y+window.innerHeight)/Math.max(1,doc.scrollHeight)>=0.6){ openSheet(); }
+    else if(armed){
+      var dt=now-lastT;
+      if(dt>16&&dt<300&&maxY>400&&(lastY-y)/dt>0.9) openSheet(); // mobile fast flick back up = leaving
+    }
+    lastY=y;lastT=now;
+  },{passive:true});
+  document.addEventListener('mouseout',function(e){
+    if(sheetDone||!armed) return;
+    if(!e.relatedTarget && e.clientY<=8) openSheet(); // desktop cursor bailing out the top
   });
 })();
 </script>
