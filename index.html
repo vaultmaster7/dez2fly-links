@@ -258,6 +258,13 @@
     <span class="go">→</span>
   </a>
 
+  <a class="card" id="ytmemcard" href="https://www.youtube.com/@Dez2fly/join">
+    <span class="ico">🏅</span>
+    <span class="tx"><b>YouTube Memberships — the clean lane</b>
+    <span>members-only drops (the youtube-safe cuts) + custom emotes in chat & the 24/7 stream. never leave the app.</span></span>
+    <span class="go">→</span>
+  </a>
+
   <a class="card" id="videocard" href="/video.html">
     <span class="ico">🎥</span>
     <span class="tx"><b>A personal video — from me or any character 🎥</b>
@@ -358,10 +365,10 @@
   // source-matched ordering: show each visitor the ask that fits where they came from
   var wrap=document.querySelector('.wrap');
   var ORDERS={
-    live:['header','#latest','#grab','#vaultcard','#videocard','#crew','a.card.vault','a[href*="discord.gg"]','a[href*="Dez2flyAnimated"]','.sect','.socials','footer'],
-    yt:null, ttdm:['header','#latest','#vaultcard','#grab','#videocard','#crew','a.card.vault','a[href*="discord.gg"]','a[href*="Dez2flyAnimated"]','.sect','.socials','footer'],
+    live:['header','#latest','#grab','#vaultcard','#ytmemcard','#videocard','#crew','a.card.vault','a[href*="discord.gg"]','a[href*="Dez2flyAnimated"]','.sect','.socials','footer'],
+    yt:null, ttdm:['header','#latest','#vaultcard','#ytmemcard','#grab','#videocard','#crew','a.card.vault','a[href*="discord.gg"]','a[href*="Dez2flyAnimated"]','.sect','.socials','footer'],
     igdm:null,
-    vaultback:['header','#grab','#videocard','#latest','#crew','a.card.vault','a[href*="discord.gg"]','a[href*="Dez2flyAnimated"]','.sect','.socials','#vaultcard','footer']
+    vaultback:['header','#grab','#ytmemcard','#videocard','#latest','#crew','a.card.vault','a[href*="discord.gg"]','a[href*="Dez2flyAnimated"]','.sect','.socials','#vaultcard','footer']
   };
   ORDERS.yt=ORDERS.live; ORDERS.igdm=ORDERS.ttdm;
   if(ORDERS[src]){ ORDERS[src].forEach(function(sel){var el=wrap.querySelector(sel)||document.querySelector(sel);if(el&&el.parentElement===wrap)wrap.appendChild(el);}); }
