@@ -261,7 +261,8 @@
   <a class="card" id="ytmemcard" href="https://www.youtube.com/@Dez2fly/join">
     <span class="ico">🏅</span>
     <span class="tx"><b>YouTube Memberships — the clean lane</b>
-    <span>members-only drops (the youtube-safe cuts) + custom emotes in chat & the 24/7 stream. never leave the app.</span></span>
+    <span>members-only drops (the youtube-safe cuts) + custom emotes in chat & the 24/7 stream. never leave the app.</span>
+    <span class="statline" id="st-ytm"></span></span>
     <span class="go">→</span>
   </a>
 
@@ -510,6 +511,10 @@
     var put=function(id,txt){var el=document.getElementById(id);if(el&&txt){el.textContent=txt;el.style.display='block';}};
     if(subs)  put('st-yt', subs+' subscribers strong');
     if(vault){ put('st-vault', vault+' members inside'); vaultN=vault; }
+    // yt_members is hand-pulled from Studio (no API): exact <=21d, floored "N+" to 45d, hidden after
+    var ytm=clean(s.yt_members), ytAge=Date.now()-(Date.parse(s.yt_members_updated||'')||0);
+    if(ytm&&ytAge<=21*864e5)      put('st-ytm', ytm+' in the clean lane');
+    else if(ytm&&ytAge<=45*864e5) put('st-ytm', (Math.floor(ytm/10)*10)+'+ in the clean lane');
     if(dc)    put('st-dc', dc+' in the server');
     if(list)  put('st-list', (joined>=10? joined+' joined this week · ':'')+list.toLocaleString('en-US')+'+ deep');
     if(list)  put('st-grab', (joined>=10? joined+' joined this week. ':'')+list.toLocaleString('en-US')+'+ roaches deep.');

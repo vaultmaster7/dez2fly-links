@@ -6,6 +6,11 @@ Discord invite API (member count), Klaviyo private API (list size + 7-day
 joins). The Klaviyo key is read from a file OUTSIDE the repo and only rounded
 aggregate counts are written — no key or profile data ever touches stats.json.
 
+Hand-maintained fields: yt_members / yt_members_updated (YouTube membership
+count has no API or public page — pulled from YouTube Studio by hand). This
+script must leave them untouched; it does, because only fetched keys are
+overwritten. Never stamp yt_members_updated from here.
+
 Failure policy:
 - Slow-moving counts (subs, vault, discord members) keep their old value if a
   source fails — a day-old member count is still true.

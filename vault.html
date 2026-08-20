@@ -139,7 +139,7 @@
     </a>
     <a class="btn yt" id="ytmem" href="https://www.youtube.com/@Dez2fly/join">
       ▶️ rather stay on youtube? join memberships
-      <small>the squeaky-clean exclusives + emotes in chat & the 24/7 stream</small>
+      <small id="st-ytmem">the squeaky-clean exclusives + emotes in chat & the 24/7 stream</small>
     </a>
   </div>
   <div class="fine">vault hosted on patreon · 18+ content inside · memberships hosted on youtube · cancel either in two taps</div>
@@ -165,7 +165,12 @@
   gc('/vault-bridge-'+src);
 
   fetch('stats.json',{cache:'no-store'}).then(function(r){return r.json()}).then(function(s){
-    if(s&&s.vault_members){var el=document.getElementById('vmembers');el.textContent=s.vault_members+' members inside right now';el.style.display='block';}
+    if(!s) return;
+    // same 8-day honesty gate the homepage runs — a dead updater must not keep claiming "right now"
+    if(s.vault_members&&Date.now()-(Date.parse(s.updated||'')||0)<8*864e5){var el=document.getElementById('vmembers');el.textContent=s.vault_members+' members inside right now';el.style.display='block';}
+    // yt_members is hand-pulled from Studio (no API): exact <=21d, floored "N+" to 45d, default copy after
+    var ytm=Math.floor(Number(s.yt_members))||0, ytAge=Date.now()-(Date.parse(s.yt_members_updated||'')||0), yEl=document.getElementById('st-ytmem');
+    if(yEl&&ytm>0&&ytAge<=45*864e5){var n=ytAge<=21*864e5?String(ytm):(Math.floor(ytm/10)*10)+'+'; yEl.textContent=n+' of the crew already do — none of them get the uncut stuff 🪳';}
   }).catch(function(){});
 
   document.getElementById('teaser').addEventListener('click',function(){
