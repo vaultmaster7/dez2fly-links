@@ -253,7 +253,7 @@
 <script>
 (function(){
   var p=new URLSearchParams(location.search);
-  var src=p.get('s')||'direct';
+  var src=(p.get('s')||'').replace(/[^a-zA-Z0-9_-]/g,'').slice(0,24)||'direct'; // sanitized — src is concatenated into hrefs/analytics
   var tries=0;
   var gc=function(args){ if(window.goatcounter&&goatcounter.count){goatcounter.count(args);} else if(tries++<25){setTimeout(function(){gc(args);},400);} };
   gc({path:'/video-page-'+src});

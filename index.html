@@ -347,7 +347,10 @@
 
   // ---- source detection ----
   var p=new URLSearchParams(location.search);
-  var src=p.get('s');
+  // strip src to [a-z0-9_-] — it gets concatenated into innerHTML href attrs
+  // (e.g. the signup success line), so a crafted ?s= could otherwise inject
+  // markup or pollute analytics with garbage tags
+  var src=(p.get('s')||'').replace(/[^a-zA-Z0-9_-]/g,'').slice(0,24)||null;
   if(!src){
     var r=(document.referrer||'').toLowerCase();
     if(r.includes('tiktok'))src='tt';
@@ -371,7 +374,7 @@
     igdm:null,
     vaultback:['header','#grab','#ytmemcard','#videocard','#latest','#crew','a.card.vault','a[href*="discord.gg"]','a[href*="Dez2flyAnimated"]','.sect','.socials','#vaultcard','footer']
   };
-  ORDERS.yt=ORDERS.live; ORDERS.igdm=ORDERS.ttdm;
+  ORDERS.yt=ORDERS.live; ORDERS.igdm=ORDERS.ttdm; ORDERS.qr=ORDERS.live; // qr = stream viewers scanning the on-screen code (Leon 2's tag split, Aug 21)
   if(ORDERS[src]){ ORDERS[src].forEach(function(sel){var el=wrap.querySelector(sel)||document.querySelector(sel);if(el&&el.parentElement===wrap)wrap.appendChild(el);}); }
 
   // vaultback: they just saw the vault pitch and walked — flip the page to the free-clip ask
