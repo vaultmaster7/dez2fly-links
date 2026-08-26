@@ -1,6 +1,6 @@
 # VOICE.md — how dez sounds
 
-This governs every word an agent writes for 2flycrew.co, the Klaviyo emails, and any
+This governs every word an agent writes for dez2fly.com, the Klaviyo emails, and any
 copy that ships under Dez's name. It was extracted from the live site and the real
 email templates on 2026-07-16 — every quoted line below actually shipped. When in
 doubt, reread the quotes and match them. Do not "improve" the voice toward marketing

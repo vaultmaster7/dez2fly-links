@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Refresh stats.json — real social-proof numbers for 2flycrew.co.
+"""Refresh stats.json — real social-proof numbers for dez2fly.com.
 
 Sources: YouTube watch page (subs), Patreon public campaign API (paid members),
 Discord invite API (member count), Klaviyo private API (list size + 7-day

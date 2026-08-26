@@ -1,4 +1,4 @@
-# DESIGN.md — 2flycrew.co
+# DESIGN.md — dez2fly.com (formerly 2flycrew.co)
 
 Extracted from the live site (index / video / vault / privacy), 2026-07-16. These are
 decisions already made. Comply with them — do not redesign, do not add fonts, colors,

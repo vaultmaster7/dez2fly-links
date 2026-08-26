@@ -16,7 +16,7 @@ NS = {
 }
 SKIP = re.compile(r"24/7|🔴|\blive\b|hours of", re.I)
 
-req = urllib.request.Request(FEED, headers={"User-Agent": "Mozilla/5.0 (2flycrew.co latest-video bot)"})
+req = urllib.request.Request(FEED, headers={"User-Agent": "Mozilla/5.0 (dez2fly.com latest-video bot)"})
 xml = urllib.request.urlopen(req, timeout=30).read()
 root = ET.fromstring(xml)
 

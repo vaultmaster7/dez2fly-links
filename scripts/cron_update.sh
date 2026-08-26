@@ -1,5 +1,5 @@
 #!/bin/zsh
-# Refresh latest.json + stats.json on 2flycrew.co — runs from cron every 6h.
+# Refresh latest.json + stats.json on dez2fly.com — runs from cron every 6h.
 # Pushes use a token file (macOS Keychain is locked under cron). Failures ping Telegram.
 export PATH="/usr/local/bin:/opt/homebrew/bin:$PATH"
 cd /Users/dez2fly/claude-projects/2flycrew-site || exit 1
@@ -7,7 +7,7 @@ cd /Users/dez2fly/claude-projects/2flycrew-site || exit 1
 alert() {
   TG=$(grep '^TELEGRAM_BOT_TOKEN' "$HOME/.claude/channels/telegram/.env" | cut -d= -f2)
   curl -s "https://api.telegram.org/bot${TG}/sendMessage" -d "chat_id=5352941556" \
-    --data-urlencode "text=⚠️ 2flycrew.co updater: $1" > /dev/null
+    --data-urlencode "text=⚠️ dez2fly.com updater: $1" > /dev/null
 }
 
 git rebase --abort >/dev/null 2>&1   # self-heal if a previous run died mid-rebase
