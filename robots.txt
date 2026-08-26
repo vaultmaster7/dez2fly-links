@@ -1,4 +1,4 @@
-# 2flycrew.co — door's open. robots welcome too 🪳
+# dez2fly.com — door's open. robots welcome too 🪳
 
 User-agent: *
 Allow: /
@@ -19,4 +19,4 @@ Allow: /
 User-agent: Google-Extended
 Allow: /
 
-Sitemap: https://2flycrew.co/sitemap.xml
+Sitemap: https://dez2fly.com/sitemap.xml
