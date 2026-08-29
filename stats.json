@@ -4,14 +4,15 @@
  "vault_members": 72,
  "yt_members": 229,
  "yt_members_updated": "2026-08-20T00:00:00Z",
- "discord_members": 332,
+ "discord_members": 333,
  "list_count": 6800,
- "updated": "2026-08-29T17:41:37Z",
+ "updated": "2026-08-29T23:53:52Z",
  "slots_left": 5,
  "booked_week": 0,
  "slots_cap": 5,
  "recent": [],
  "views_today": 5,
  "video_views_today": 0,
- "total_bookings": 0
+ "total_bookings": 0,
+ "joined_7d": 120
 }
