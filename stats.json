@@ -1,12 +1,12 @@
 {
  "yt_subs_n": 879000,
  "yt_subs": "879K",
- "vault_members": 73,
+ "vault_members": 72,
  "yt_members": 229,
  "yt_members_updated": "2026-08-20T00:00:00Z",
  "discord_members": 332,
- "list_count": 6800,
- "updated": "2026-08-31T23:53:15Z",
+ "list_count": 6900,
+ "updated": "2026-09-01T05:54:06Z",
  "slots_left": 5,
  "booked_week": 0,
  "slots_cap": 5,
@@ -14,5 +14,5 @@
  "views_today": 11,
  "video_views_today": 0,
  "total_bookings": 0,
- "joined_7d": 120
+ "joined_7d": 130
 }
