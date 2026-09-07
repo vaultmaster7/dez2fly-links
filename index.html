@@ -249,6 +249,14 @@
     <span class="go">→</span>
   </a>
 
+  <a class="card" id="merchcard" href="https://dez2fly-shop.fourthwall.com/products/what-i-do-tee?utm_source=biolink&utm_medium=link&utm_campaign=whatido_drop">
+    <span class="ico">👕</span>
+    <span class="tx"><b>WHAT I DO? — the tee <span class="pill">NEW DROP</span></b>
+    <span>the household's protest line, finally on a shirt. heavyweight garment-dyed, printed to order, ships from the US. $32 · free shipping over $75.</span>
+    <span style="font-family:var(--mono);font-size:10px;color:var(--dim);margin-top:4px">code <span style="display:inline;color:var(--amber)">WHATIDO10</span> = 10% off · first run</span></span>
+    <span class="go">→</span>
+  </a>
+
   <a class="card" id="vaultcard" href="/vault.html">
     <span class="ico">💀</span>
     <span class="tx"><b>The Vault — uncut side 🔞</b>
@@ -374,10 +382,10 @@
   // source-matched ordering: show each visitor the ask that fits where they came from
   var wrap=document.querySelector('.wrap');
   var ORDERS={
-    live:['header','#latest','#grab','#vaultcard','#ytmemcard','#videocard','#crew','a.card.vault','a[href*="discord.gg"]','a[href*="Dez2flyAnimated"]','.sect','.socials','footer'],
-    yt:null, ttdm:['header','#latest','#vaultcard','#ytmemcard','#grab','#videocard','#crew','a.card.vault','a[href*="discord.gg"]','a[href*="Dez2flyAnimated"]','.sect','.socials','footer'],
+    live:['header','#latest','#merchcard','#grab','#vaultcard','#ytmemcard','#videocard','#crew','a.card.vault','a[href*="discord.gg"]','a[href*="Dez2flyAnimated"]','.sect','.socials','footer'],
+    yt:null, ttdm:['header','#latest','#merchcard','#vaultcard','#ytmemcard','#grab','#videocard','#crew','a.card.vault','a[href*="discord.gg"]','a[href*="Dez2flyAnimated"]','.sect','.socials','footer'],
     igdm:null,
-    vaultback:['header','#grab','#ytmemcard','#videocard','#latest','#crew','a.card.vault','a[href*="discord.gg"]','a[href*="Dez2flyAnimated"]','.sect','.socials','#vaultcard','footer']
+    vaultback:['header','#grab','#ytmemcard','#videocard','#latest','#merchcard','#crew','a.card.vault','a[href*="discord.gg"]','a[href*="Dez2flyAnimated"]','.sect','.socials','#vaultcard','footer']
   };
   ORDERS.yt=ORDERS.live; ORDERS.igdm=ORDERS.ttdm; ORDERS.qr=ORDERS.live; // qr = stream viewers scanning the on-screen code (Leon 2's tag split, Aug 21)
   if(ORDERS[src]){ ORDERS[src].forEach(function(sel){var el=wrap.querySelector(sel)||document.querySelector(sel);if(el&&el.parentElement===wrap)wrap.appendChild(el);}); }
@@ -652,7 +660,7 @@
   var okHTML=function(){
     return src==='vaultback'
       ? "clip's on the way — check your inbox 🪳 the vault's not going anywhere. we'll leave a light on."
-      : "clip's on the way — check your inbox 🪳 while it lands: <a href='/vault.html?s="+src+"' style='color:#ffb648'>uncle origin pt 2 is in the vault"+(vaultN?". "+vaultN+" already inside":"")+" →</a>";
+      : "clip's on the way — check your inbox 🪳 while it lands: <a href='/vault.html?s="+src+"' style='color:#ffb648'>uncle origin pt 2 is in the vault"+(vaultN?". "+vaultN+" already inside":"")+" →</a><br><span style='font-family:var(--mono);font-size:10px;color:var(--dim)'>and since you're on the list: code <span style='display:inline;color:#ffb648'>WHATIDO10</span> = 10% off the <a href='https://dez2fly-shop.fourthwall.com/products/what-i-do-tee?utm_source=biolink&utm_medium=grab&utm_campaign=whatido_drop' style='color:#ffb648'>WHAT I DO? tee</a></span>";
   };
   var subscribeK=function(email,surface,onOk,onErr){
     var ctrl=new AbortController();
