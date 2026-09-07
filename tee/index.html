@@ -1,0 +1,19 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><title>WHAT I DO? tee — Dez2fly</title>
+<meta name="robots" content="noindex">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>body{margin:0;background:#0b0b0c;color:#ffb648;font:16px/1.4 -apple-system,system-ui,sans-serif;display:grid;place-items:center;height:100vh;text-align:center}a{color:#ffb648}</style>
+<script>window.goatcounter={no_onload:true};</script>
+<script data-goatcounter="https://dez2fly.goatcounter.com/count" async src="/count.js"></script>
+<script>
+// /tee?s=<tag> — one-hop door to the WHAT I DO? tee. Tag map matches index.html: qr = stream overlay, chat = pinned comment,
+// live = description, es = end screen, ig/tt = bios. Logs /visit-tee-<tag> in GoatCounter, then lands on the product with utm_source=<tag>.
+(function(){
+  var src=(new URLSearchParams(location.search).get('s')||'direct').replace(/[^a-z0-9_-]/gi,'').slice(0,20)||'direct';
+  var dest='https://dez2fly-shop.fourthwall.com/products/what-i-do-tee?utm_source='+encodeURIComponent(src)+'&utm_medium=tee_door&utm_campaign=whatido_drop';
+  document.addEventListener('DOMContentLoaded',function(){var a=document.getElementById('go');if(a)a.href=dest;});
+  var tries=0, sent=false;
+  function fire(){ if(sent)return; if(window.goatcounter&&goatcounter.count){sent=true;goatcounter.count({path:'/visit-tee-'+src,title:'Tee door ('+src+')'});setTimeout(function(){location.replace(dest);},250);} else if(tries++<12){setTimeout(fire,200);} else {location.replace(dest);} }
+  fire();
+})();
+</script></head>
+<body><div>WHAT I DO? tee — taking you to the store…<br><a id="go" href="https://dez2fly-shop.fourthwall.com/products/what-i-do-tee">tap here if it doesn't move</a></div></body></html>
