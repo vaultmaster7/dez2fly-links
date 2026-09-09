@@ -102,6 +102,14 @@
   .tx span{display:block;font-size:12.5px;color:var(--mute);margin-top:2px;line-height:1.35}
   .go{margin-left:auto;color:var(--dim);font-size:18px;flex-shrink:0}
 
+  /* statement tee — actual Fourthwall back-print mockup */
+  #stopplayingcard{align-items:flex-start;gap:14px}
+  #stopplayingcard .merch-photo{width:110px;height:auto;aspect-ratio:3/4;display:block;border-radius:10px;flex-shrink:0}
+  #stopplayingcard .tx{min-width:0}
+  #stopplayingcard .merch-label{font-family:var(--mono);font-size:10px;letter-spacing:.12em;color:var(--amber);margin:0 0 7px}
+  #stopplayingcard .merch-price{color:var(--ink);font-weight:600;margin-top:9px}
+  #stopplayingcard .merch-cta{color:var(--amber);font-size:14px;font-weight:700;margin-top:9px}
+
   a.card.vault{background:linear-gradient(135deg,#241a3e,#1a1230);border-color:var(--amber-deep);position:relative;overflow:hidden}
   a.card.vault::after{content:"";position:absolute;top:0;left:-80%;width:60%;height:100%;
     background:linear-gradient(100deg,transparent,rgba(255,182,72,.13),transparent);
@@ -249,6 +257,16 @@
     <span class="go">→</span>
   </a>
 
+  <a class="card" id="stopplayingcard" href="https://dez2fly-shop.fourthwall.com/products/stop-playing-with-me-back-print-tee?utm_source=biolink&utm_medium=link&utm_campaign=stopplaying_drop">
+    <img class="merch-photo" src="/assets/stop-playing-back.jpg" width="1536" height="2048" loading="lazy" decoding="async" alt="Blue Spruce tee with the cream and lime STOP PLAYING WITH ME back print">
+    <span class="tx"><span class="merch-label">OUT NOW</span>
+    <b>STOP PLAYING WITH ME.</b>
+    <span>blank front. the back does the talking. heavyweight, garment-dyed cotton in Blue Spruce.</span>
+    <span class="merch-price">from $32</span>
+    <span>2XL–4XL: $34–$38. shipping &amp; tax at checkout.</span>
+    <span class="merch-cta">shop the tee <span style="display:inline;color:inherit" aria-hidden="true">→</span></span></span>
+  </a>
+
   <a class="card" id="merchcard" href="https://dez2fly-shop.fourthwall.com/products/what-i-do-tee?utm_source=biolink&utm_medium=link&utm_campaign=whatido_drop">
     <span class="ico">👕</span>
     <span class="tx"><b>WHAT I DO? — the tee <span class="pill">NEW DROP</span></b>
@@ -382,10 +400,10 @@
   // source-matched ordering: show each visitor the ask that fits where they came from
   var wrap=document.querySelector('.wrap');
   var ORDERS={
-    live:['header','#latest','#merchcard','#grab','#vaultcard','#ytmemcard','#videocard','#crew','a.card.vault','a[href*="discord.gg"]','a[href*="Dez2flyAnimated"]','.sect','.socials','footer'],
-    yt:null, ttdm:['header','#latest','#merchcard','#vaultcard','#ytmemcard','#grab','#videocard','#crew','a.card.vault','a[href*="discord.gg"]','a[href*="Dez2flyAnimated"]','.sect','.socials','footer'],
+    live:['header','#latest','#stopplayingcard','#merchcard','#grab','#vaultcard','#ytmemcard','#videocard','#crew','a.card.vault','a[href*="discord.gg"]','a[href*="Dez2flyAnimated"]','.sect','.socials','footer'],
+    yt:null, ttdm:['header','#latest','#stopplayingcard','#merchcard','#vaultcard','#ytmemcard','#grab','#videocard','#crew','a.card.vault','a[href*="discord.gg"]','a[href*="Dez2flyAnimated"]','.sect','.socials','footer'],
     igdm:null,
-    vaultback:['header','#grab','#ytmemcard','#videocard','#latest','#merchcard','#crew','a.card.vault','a[href*="discord.gg"]','a[href*="Dez2flyAnimated"]','.sect','.socials','#vaultcard','footer']
+    vaultback:['header','#grab','#ytmemcard','#videocard','#latest','#stopplayingcard','#merchcard','#crew','a.card.vault','a[href*="discord.gg"]','a[href*="Dez2flyAnimated"]','.sect','.socials','#vaultcard','footer']
   };
   ORDERS.yt=ORDERS.live; ORDERS.igdm=ORDERS.ttdm; ORDERS.qr=ORDERS.live; // qr = stream viewers scanning the on-screen code (Leon 2's tag split, Aug 21)
   if(ORDERS[src]){ ORDERS[src].forEach(function(sel){var el=wrap.querySelector(sel)||document.querySelector(sel);if(el&&el.parentElement===wrap)wrap.appendChild(el);}); }
