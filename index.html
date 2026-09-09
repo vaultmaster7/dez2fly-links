@@ -262,15 +262,16 @@
     <span class="tx"><span class="merch-label">OUT NOW</span>
     <b>STOP PLAYING WITH ME.</b>
     <span>blank front. the back does the talking. heavyweight, garment-dyed cotton in Blue Spruce.</span>
-    <span class="merch-price">from $32</span>
+    <span class="merch-price">$32 launch price <span style="font-family:var(--mono);font-size:10px;color:var(--dim)">· $38 after the first run</span></span>
     <span>2XL–4XL: $34–$38. shipping &amp; tax at checkout.</span>
+    <span id="sp-run" style="font-family:var(--mono);font-size:10px;color:var(--amber);margin-top:4px">first run closes Sun Sept 21, 11:59pm CT · <span id="sp-cd">--d --h --m</span> left</span>
     <span class="merch-cta">shop the tee <span style="display:inline;color:inherit" aria-hidden="true">→</span></span></span>
   </a>
 
   <a class="card" id="merchcard" href="https://dez2fly-shop.fourthwall.com/products/what-i-do-tee?utm_source=biolink&utm_medium=link&utm_campaign=whatido_drop">
     <span class="ico">👕</span>
-    <span class="tx"><b>WHAT I DO? — the tee <span class="pill">NEW DROP</span></b>
-    <span>the household's protest line, finally on a shirt. heavyweight garment-dyed, printed to order, ships from the US. $32 · free shipping over $75.</span>
+    <span class="tx"><b>WHAT I DO? — the tee <span class="pill">$24</span></b>
+    <span>the household's protest line, finally on a shirt. same heavyweight garment-dyed cotton, the basic one. printed to order, ships from the US. $24 · free shipping over $75.</span>
     <span style="font-family:var(--mono);font-size:10px;color:var(--dim);margin-top:4px">code <span style="display:inline;color:var(--amber)">WHATIDO10</span> = 10% off · first run</span></span>
     <span class="go">→</span>
   </a>
@@ -832,6 +833,13 @@
     if(!e.relatedTarget && e.clientY<=8) openSheet(); // desktop cursor bailing out the top
   });
 })();
+</script>
+<script>
+(function(){var el=document.getElementById('sp-cd'),row=document.getElementById('sp-run');if(!el||!row)return;
+var end=Date.parse('2026-09-22T04:59:59Z');/* Sun Sept 21 11:59pm CT */
+function tick(){var ms=end-Date.now();if(ms<=0){row.textContent='first run closed · second run coming';return;}
+var d=Math.floor(ms/864e5),h=Math.floor(ms%864e5/36e5),m=Math.floor(ms%36e5/6e4);el.textContent=d+'d '+h+'h '+m+'m';setTimeout(tick,30000);}
+tick();})();
 </script>
 </body>
 </html>
