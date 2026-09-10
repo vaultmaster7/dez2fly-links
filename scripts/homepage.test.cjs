@@ -222,6 +222,24 @@ function assertStatsHidden(document) {
   }
 }
 
+test('the WHAT I DO image description identifies its saved front-print placement', async () => {
+  // Catches assistive text describing this front-print product as a back-print tee.
+  const { document } = await loadHomepage();
+  const description = document.querySelector('#merchcard img').alt;
+  assert.match(description, /ivory/i);
+  assert.match(description, /front print/i);
+  assert.doesNotMatch(description, /back print/i);
+});
+
+test('the collection description does not promise every tee has a blank front', async () => {
+  // Catches a collection-wide claim contradicted by the WHAT I DO front-print product.
+  const { document } = await loadHomepage();
+  const description = document.querySelector('.collection-note').textContent;
+  assert.match(description, /one bold front/i);
+  assert.match(description, /four loud backs/i);
+  assert.doesNotMatch(description, /blank fronts[.!]?\s*loud backs/i);
+});
+
 test('all five product cards show a real image and retain their Fourthwall product destination', async () => {
   // Catches a product card losing its visual or being redirected to a generic/wrong store page.
   const { document } = await loadHomepage();
