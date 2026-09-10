@@ -21,7 +21,7 @@
   "name": "Privacy — Dez2fly",
   "url": "https://dez2fly.com/privacy.html",
   "description": "What dez2fly.com collects, why, who touches it, and how to opt out.",
-  "dateModified": "2026-07-16",
+  "dateModified": "2026-09-11",
   "isPartOf": { "@type": "WebSite", "@id": "https://dez2fly.com/#site", "url": "https://dez2fly.com/" },
   "publisher": {
     "@type": "Organization",
@@ -75,6 +75,8 @@
   footer{margin-top:22px;text-align:center;font-family:var(--mono);font-size:10px;letter-spacing:.12em;color:var(--dim);line-height:1.9}
   footer a{color:var(--mute)}
 </style>
+<link rel="stylesheet" href="/assets/analytics.css?v=20260911">
+<script defer src="/assets/analytics.js?v=20260911"></script>
 </head>
 <body>
 <div class="wrap">
@@ -85,39 +87,49 @@
   </header>
 
   <div class="notice">
-    <div class="lbl">⚠️ read this part — session recording</div>
-    This site uses <b>Microsoft Clarity</b>, a session-recording and heatmap tool. It records how you interact with the page — clicks, taps, scrolls, and mouse movement — so I can see where the site is broken or confusing. Anything you <b>type</b> (like your email address in the signup form) is <b>masked and never recorded</b>. By using this site, you're being recorded in that way. If that's not cool with you, ad blockers and tracker blockers stop it — details below.
+    <div class="lbl">your analytics choice</div>
+    <b>Google Analytics and Microsoft Clarity stay off until you choose “allow analytics.”</b> choose “reject” to keep them off. the “analytics settings” button at the bottom of each page lets you change your choice. if you withdraw permission after they have loaded, the page reloads with them off. cookie-free aggregate counts from GoatCounter continue either way.
   </div>
 
   <div class="panel">
     <div class="lbl">📥 what gets collected</div>
-    <div class="item"><b>page visits.</b> counted with GoatCounter — it's cookieless and doesn't collect personal data. it just tells me how many people showed up and from where, roughly.<span class="who">handled by <b>GoatCounter</b></span></div>
-    <div class="item"><b>session recordings + heatmaps.</b> clicks, scrolls, taps, and mouse movement, as described in the box above. typed input like email addresses is masked and never recorded.<span class="who">handled by <b>Microsoft Clarity</b></span></div>
-    <div class="item"><b>your email — only if you give it.</b> if you put your email in the signup form, it goes to my email list so I can send you drops. nothing is grabbed silently.<span class="who">handled by <b>Klaviyo</b></span></div>
-    <div class="item"><b>order details — only if you buy.</b> payments run entirely through Stripe. I never see your card number. I get your name, email, and what you ordered so I can deliver it.<span class="who">handled by <b>Stripe</b></span></div>
+    <div class="item"><b>aggregate visits + clicks.</b> GoatCounter counts visits, selected clicks, and signup outcomes without setting analytics cookies. these counts help me see which pages and links get used.<span class="who">handled by <b>GoatCounter</b></span></div>
+    <div class="item"><b>optional site measurement.</b> Google Analytics 4 measures page visits, selected links and sections, and whether the signup service accepted a request. it can use analytics cookies to connect visits, including a visit from this site to the merch shop when the shop's own consent and settings allow it. the signup event contains the form's name, not your email. consent choices, browser limits, and shop settings mean the reports do not account for every visitor or purchase.<span class="who">handled by <b>Google Analytics</b> — only after you allow analytics here</span></div>
+    <div class="item"><b>optional session recordings + heatmaps.</b> Microsoft Clarity shows clicks, taps, scrolling, mouse movement, and page content so i can find confusing parts of the site. Clarity masks typed input, and this site also marks the signup area for masking. masking reduces exposure; it is not a promise that every piece of personal information anywhere on a page is automatically removed.<span class="who">handled by <b>Microsoft Clarity</b> — only after you allow analytics here</span></div>
+    <div class="item"><b>your email — only if you submit it.</b> the signup form sends your email to my email list so i can send you the clip and new drops. joining the list and allowing optional analytics are separate choices.<span class="who">handled by <b>Klaviyo</b></span></div>
+    <div class="item"><b>merch orders.</b> the merch links take you to the Fourthwall shop. Fourthwall handles the checkout and order details under its own policies. this site's analytics events do not contain card information.<span class="who">handled by <b>Fourthwall</b></span></div>
+    <div class="item"><b>other offers.</b> where an offer uses Stripe, payment happens on Stripe's checkout. that is separate from the Fourthwall merch shop. order information such as your name, email, and what you bought may be used to deliver the offer; card entry stays with the checkout provider.<span class="who">handled by <b>Stripe</b> for offers that use it</span></div>
   </div>
 
   <div class="panel">
     <div class="lbl">🤔 why</div>
-    <p>one reason: to see what's broken and what the crew actually wants, so I can make this thing better. that's it.</p>
-    <p><b>nothing is sold. not your email, not your recordings, not anything.</b> no data broker nonsense, no shady list-swapping.</p>
+    <p>to see what's broken, which links the crew uses, and whether a signup or shop visit makes it through. email and order details also let me send what you asked for.</p>
+    <p>i don't sell my mailing list or swap it with other creators. advertising consent stays off in this site's optional analytics setup.</p>
   </div>
 
   <div class="panel">
     <div class="lbl">🤝 who touches your data</div>
-    <div class="item"><b>Microsoft Clarity</b> — session recordings + heatmaps.</div>
-    <div class="item"><b>GoatCounter</b> — visit counts. cookieless, no personal data.</div>
+    <div class="item"><b>Google Analytics</b> — optional site and merch-visit measurement.</div>
+    <div class="item"><b>Microsoft Clarity</b> — optional session recordings + heatmaps.</div>
+    <div class="item"><b>GoatCounter</b> — cookie-free aggregate counts.</div>
     <div class="item"><b>Klaviyo</b> — stores the email list and sends the emails.</div>
-    <div class="item"><b>Stripe</b> — processes payments. card data lives with them, never with me.</div>
-    <div class="item"><b>Patreon</b> — only if you click through to the vault. once you're on patreon, their privacy policy applies over there.</div>
-    <div class="item">that's the whole list. <b>we don't sell your data</b> to anyone, ever.</div>
+    <div class="item"><b>Fourthwall</b> — the merch shop, checkout, and order handling.</div>
+    <div class="item"><b>Stripe</b> — checkout for other offers that use Stripe.</div>
+    <div class="item"><b>Patreon, YouTube, Discord, and other linked sites</b> — their own policies apply when you visit them. the Fourthwall shop also manages its own consent choices; your choice here does not automatically set your choice there.</div>
+  </div>
+
+  <div class="panel">
+    <div class="lbl">remembering your choice</div>
+    <p>this site stores your analytics choice on your device using first-party local storage, with a first-party cookie to remember rejection or keep optional analytics off if saving fails. the choice lasts up to 180 days. clearing your browser's site data can remove it and bring the choice back.</p>
+    <p>if you allow analytics, Google Analytics and Clarity may set their own analytics cookies. withdrawing permission clears the accessible analytics cookies for this site and reloads the page with both tools off. it does not delete data already collected or cookies belonging to the separate merch shop.</p>
   </div>
 
   <div class="panel">
     <div class="lbl">🚪 how to opt out</div>
     <div class="item"><b>emails:</b> every email has an unsubscribe link. one click, you're out, no guilt trip.</div>
-    <div class="item"><b>tracking:</b> browser Do Not Track settings and ad/tracker blockers work on this site — they'll stop Clarity from recording.</div>
-    <div class="item"><b>deletion:</b> want your data gone? email <a href="mailto:2flyentllc@gmail.com">2flyentllc@gmail.com</a> and I'll delete what I have on you.</div>
+    <div class="item"><b>optional analytics:</b> open “analytics settings” at the bottom of this page and choose “reject.” you can still use the site and signup form. GoatCounter's cookie-free aggregate counts continue.</div>
+    <div class="item"><b>browser controls:</b> blockers may limit tracking, but their behavior varies. this site's analytics setting is the control provided here; a browser's Do Not Track signal is not a substitute for making that choice.</div>
+    <div class="item"><b>deletion:</b> want to ask about data already held? email <a href="mailto:2flyentllc@gmail.com">2flyentllc@gmail.com</a>. i'll help with data i control and point you to the provider for anything it handles separately.</div>
   </div>
 
   <div class="panel">
@@ -125,18 +137,11 @@
     <p>anything about your data: <a href="mailto:2flyentllc@gmail.com">2flyentllc@gmail.com</a>. a real human (me) reads these 🪳</p>
   </div>
 
-  <div class="fine">last updated: 2026-07-16</div>
+  <div class="fine">last updated: 2026-09-11</div>
   <a class="back" href="/">← back to everything else</a>
-  <footer>questions? <a href="mailto:2flyentllc@gmail.com">2flyentllc@gmail.com</a> — a real human (me) reads these 🪳<br>© 2 FLY ENTERTAINMENT LLC</footer>
+  <footer>questions? <a href="mailto:2flyentllc@gmail.com">2flyentllc@gmail.com</a> — a real human (me) reads these 🪳<br><button type="button" data-analytics-settings>analytics settings</button><br>© 2 FLY ENTERTAINMENT LLC</footer>
 </div>
 
-<script type="text/javascript">
-(function(c,l,a,r,i,t,y){
-    c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-    t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-    y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-})(window, document, "clarity", "script", "xmwqq5ne67");
-</script>
 <script>window.goatcounter={no_onload:true};</script>
 <script data-goatcounter="https://dez2fly.goatcounter.com/count" async src="count.js"></script>
 <script>

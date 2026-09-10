@@ -18,7 +18,9 @@
 <link rel="preconnect" href="https://i.ytimg.com">
 <link rel="preconnect" href="https://imgproxy.fourthwall.dev">
 <link rel="stylesheet" href="/assets/home.css?v=20260910">
-<script defer src="/assets/home.js?v=20260910"></script>
+<link rel="stylesheet" href="/assets/analytics.css?v=20260911">
+<script defer src="/assets/analytics.js?v=20260911"></script>
+<script defer src="/assets/home.js?v=20260911"></script>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@graph":[{"@type":"Person","@id":"https://dez2fly.com/#dez2fly","name":"Dez2fly","url":"https://dez2fly.com/","description":"Comedy creator. Skits, characters, and the 2FLY Network.","sameAs":["https://www.youtube.com/@Dez2fly","https://www.youtube.com/@Dez2flyAnimated","https://www.tiktok.com/@dez2fly","https://www.instagram.com/dez2fly","https://www.instagram.com/dez2flyskits","https://www.patreon.com/Dez2fly","https://discord.gg/htTStDYfBN"]},{"@type":"Organization","@id":"https://dez2fly.com/#org","name":"2 Fly Entertainment LLC","url":"https://dez2fly.com/","email":"2flyentllc@gmail.com","founder":{"@id":"https://dez2fly.com/#dez2fly"}},{"@type":"WebSite","@id":"https://dez2fly.com/#site","url":"https://dez2fly.com/","name":"Dez2fly","publisher":{"@id":"https://dez2fly.com/#org"}}]}
 </script>
@@ -26,8 +28,8 @@
 <body>
 <a class="skip" href="#main">skip to content</a>
 <header class="site-nav"><div class="container nav-inner">
-<a class="brand" href="/" aria-label="Dez2fly home">d2f<span aria-hidden="true">✦</span></a><span class="nav-note">the official home of Dez2fly</span>
-<nav aria-label="Main navigation"><a href="#watch">watch</a><a href="#shop">shop</a><a href="#crew">the crew</a></nav>
+<a class="brand" href="/" aria-label="Dez2fly home" data-ga-track="nav-home">d2f<span aria-hidden="true">✦</span></a><span class="nav-note">the official home of Dez2fly</span>
+<nav aria-label="Main navigation"><a href="#watch" data-ga-track="nav-watch">watch</a><a href="#shop" data-ga-track="nav-shop">shop</a><a href="#crew" data-ga-track="nav-crew">the crew</a></nav>
 </div></header>
 <main class="wrap" id="main">
 <section class="stage" id="watch" aria-label="Watch Dez2fly"><div class="container">
@@ -39,7 +41,7 @@
 <span class="play-button" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 4v16l13-8z"/></svg></span><span class="video-label">watch the latest</span></a>
 <div class="episode-caption"><span id="ltitle">When GTA 6 Ruins Your Life… | Weird Turn</span><a id="video-open" href="https://www.youtube.com/watch?v=XaYQyAQKSdo" aria-label="Open the latest video on YouTube">YouTube ↗</a></div>
 </div>
-<div class="hero-copy"><h2>welcome to <br>the weird turn.</h2><p>the skits. the characters. <br>the part you had to replay.</p><div class="hero-actions"><a class="button amber" href="#latest">watch the latest <span aria-hidden="true">▶</span></a><a class="text-link" href="#shop">shop the shirts <span aria-hidden="true">↗</span></a></div><span id="st-yt" class="statline"></span></div>
+<div class="hero-copy"><h2>welcome to <br>the weird turn.</h2><p>the skits. the characters. <br>the part you had to replay.</p><div class="hero-actions"><a class="button amber" href="#latest" data-ga-track="hero-watch">watch the latest <span aria-hidden="true">▶</span></a><a class="text-link" href="#shop" data-ga-track="hero-shop">shop the shirts <span aria-hidden="true">↗</span></a></div><span id="st-yt" class="statline"></span></div>
 </div>
 <div class="channel-links" aria-label="More Dez2fly videos">
 <a href="https://www.youtube.com/@Dez2fly?sub_confirmation=1" data-track="youtube-main-channel"><span>the main channel</span><b>Dez2fly <span aria-hidden="true">↗</span></b></a>
@@ -74,26 +76,25 @@
 <a class="crew-door" id="vaultcard" href="/vault.html"><span class="door-name">The Vault <span aria-hidden="true">↗</span></span><p>Uncle's origin story. the other side of the characters. take a look inside.</p><span class="statline" id="st-vault"></span><span class="door-cta">open the Vault</span></a>
 <a class="crew-door" id="ytmemcard" href="https://www.youtube.com/@Dez2fly/join"><span class="door-name">members only <span aria-hidden="true">↗</span></span><p>extra drops and custom emotes. right there in your YouTube app.</p><span class="statline" id="st-ytm"></span><span class="door-cta">join on YouTube</span></a>
 <a class="crew-door" id="discordcard" href="https://discord.gg/htTStDYfBN"><span class="door-name">the group chat <span aria-hidden="true">↗</span></span><p>free. the crew's already inside cookin. you might as well pull up.</p><span class="statline" id="st-dc"></span><span class="door-cta">pull up on Discord</span></a>
-</div><p class="crew-aside">just here for the skits? <a href="https://www.youtube.com/@Dez2fly">those are still free on YouTube.</a> 🪳</p>
+</div><p class="crew-aside">just here for the skits? <a href="https://www.youtube.com/@Dez2fly" data-ga-track="free-youtube">those are still free on YouTube.</a> 🪳</p>
 </div></section>
 <section class="signup-section" id="grab" aria-labelledby="signup-title"><div class="container signup-layout">
 <div><p class="section-intro">straight from dez</p><h2 id="signup-title">one more <br>for the inbox.</h2><p id="grabbody">the full Uncle skit, free. then get the next drop before you hear about it in the comments.</p><span class="statline" id="st-list"></span></div>
-<div class="signup-box"><form id="grabform" novalidate>
+<div class="signup-box" data-clarity-mask="True"><form id="grabform" novalidate>
 <div class="hp-wrap" aria-hidden="true"><label for="website">leave this empty</label><input id="website" class="hp" name="website" type="text" tabindex="-1" autocomplete="off"></div>
 <label for="gemail">your email</label><div class="signup-controls"><input id="gemail" name="email" type="email" placeholder="you@example.com" autocomplete="email" autocapitalize="off" spellcheck="false" required aria-describedby="gmsg gsug"><button id="gbtn" type="submit">send me the clip <span aria-hidden="true">↗</span></button></div>
 <button class="sug" type="button" id="gsug"></button></form>
 <div class="msg" id="gmsg" role="status" aria-live="polite"></div>
-<p class="signup-fine">the free clip + new drops by email. unsubscribe anytime.<br><a href="/privacy.html">here's how your info is handled.</a></p>
+<p class="signup-fine">the free clip + new drops by email. unsubscribe anytime.<br><a href="/privacy.html" data-ga-track="privacy">here's how your info is handled.</a></p>
 <noscript><p>turn on JavaScript to join the email list. everything else here still works.</p></noscript>
 </div></div></section>
 </main>
 <footer class="site-footer"><div class="container">
-<div class="footer-top"><a class="brand" href="/" aria-label="Dez2fly home">d2f<span aria-hidden="true">✦</span></a><p>you made it this far.<br>might as well stay.</p><div class="socials" aria-label="Social profiles"><a href="https://www.tiktok.com/@dez2fly">TikTok ↗</a><a href="https://www.instagram.com/dez2fly">Instagram ↗</a><a href="https://www.instagram.com/dez2flyskits">Instagram Skits ↗</a></div></div>
-<div class="footer-bottom"><span>© 2 Fly Entertainment LLC</span><a href="mailto:2flyentllc@gmail.com">business &amp; questions</a><a href="/privacy.html">privacy</a><a href="#watch">back to the top ↑</a></div>
+<div class="footer-top"><a class="brand" href="/" aria-label="Dez2fly home" data-ga-track="footer-home">d2f<span aria-hidden="true">✦</span></a><p>you made it this far.<br>might as well stay.</p><div class="socials" aria-label="Social profiles"><a href="https://www.tiktok.com/@dez2fly" data-ga-track="tiktok">TikTok ↗</a><a href="https://www.instagram.com/dez2fly" data-ga-track="instagram">Instagram ↗</a><a href="https://www.instagram.com/dez2flyskits" data-ga-track="instagram-skits">Instagram Skits ↗</a></div></div>
+<div class="footer-bottom"><span>© 2 Fly Entertainment LLC</span><a href="mailto:2flyentllc@gmail.com" data-ga-track="business-contact">business &amp; questions</a><a href="/privacy.html" data-ga-track="privacy">privacy</a><button type="button" data-analytics-settings>analytics settings</button><a href="#watch" data-ga-track="back-top">back to the top ↑</a></div>
 </div></footer>
 <!-- No auto-open email sheet, floating sales toasts, or paused personal-video promotion. -->
 <a id="banner" class="return-banner" href="#grab" hidden>back from the Vault? the free clip's right here.</a>
-<script>(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y)})(window,document,"clarity","script","xmwqq5ne67");</script>
 <script>window.goatcounter={no_onload:true};</script>
 <script data-goatcounter="https://dez2fly.goatcounter.com/count" async src="/count.js"></script>
 </body>

@@ -222,6 +222,35 @@ function assertStatsHidden(document) {
   }
 }
 
+test('a first-time visitor sees analytics choices without loading optional trackers', async () => {
+  const { document, window } = await loadHomepage();
+  assert.equal(typeof window.dezAnalytics?.getConsent, 'function');
+  assert.equal(window.dezAnalytics.getConsent(), 'unset');
+  assert.ok(document.querySelector('footer [data-analytics-settings]'));
+  assert.equal(document.querySelectorAll('script[src*="clarity.ms"],script[src*="googletagmanager.com"]').length, 0);
+});
+
+test('only an accepted signup emits the safe analytics outcome', async () => {
+  const { document, window } = await loadHomepage();
+  const outcomes = [];
+  window.dezAnalytics = { track: (...args) => outcomes.push(args) };
+  document.querySelector('#gemail').value = 'fan@example.com';
+  submit(window, document.querySelector('#grabform'));
+  await settle();
+  assert.deepEqual(JSON.parse(JSON.stringify(outcomes)), [['signup_accepted', {form_id: 'grabform'}]]);
+  assert.ok(document.querySelector('.signup-box[data-clarity-mask]'));
+});
+
+test('a failed signup never emits a successful analytics outcome', async () => {
+  const { document, window } = await loadHomepage({signupStatus: 500});
+  const outcomes = [];
+  window.dezAnalytics = { track: (...args) => outcomes.push(args) };
+  document.querySelector('#gemail').value = 'fan@example.com';
+  submit(window, document.querySelector('#grabform'));
+  await settle();
+  assert.deepEqual(outcomes, []);
+});
+
 test('the WHAT I DO image description identifies its saved front-print placement', async () => {
   // Catches assistive text describing this front-print product as a back-print tee.
   const { document } = await loadHomepage();

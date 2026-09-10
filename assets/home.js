@@ -260,6 +260,9 @@
       if (!r.ok && r.status !== 202) throw Error();
       storeCrew(); window.__signed = 1; success(false);
       gc({path: 'signup--' + src, event: true, title: 'email signup (' + src + ')'});
+      try {
+        if (window.dezAnalytics) window.dezAnalytics.track('signup_accepted', {form_id: 'grabform'});
+      } catch (error) {}
     }).catch(function () {
       msg.className = 'msg err';
       msg.textContent = "that didn't go through. check your connection and try again.";
