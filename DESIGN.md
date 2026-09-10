@@ -1,5 +1,30 @@
 # DESIGN.md — dez2fly.com (formerly 2flycrew.co)
 
+## September 10, 2026 — approved homepage replacement
+
+Dez explicitly requested and approved a full creator-first homepage makeover.
+For **index.html only**, this section supersedes the historical frozen design below.
+Other existing pages retain their historical design until separately updated.
+
+- Oversized DEZ2FLY masthead is the primary graphic gesture. Actual skit/video
+  imagery and live-product photography; no fake portrait or stock lifestyle imagery.
+- Palette: stage #191918, warm paper #f5f3ee, ink #252523, amber #ffb648,
+  muted #aaa9a2, rule #d5d2c9. Dark video/crew, light shop, amber signup.
+- Display: system Impact/Haettenschweiler; reading: Avenir Next/Helvetica Neue/Arial.
+  No downloaded webfonts, third-party icon library, framework, or bundler.
+- Max content width 1200px. Wide video + intro; three-column collection on desktop
+  with final pair centered; two-column collection on phones. Maintain 320px support.
+- Preserve semantic headings, accessible names, visible focus, reduced-motion
+  support, source tags, and usable no-JS links. Email capture is inline only.
+- Home CSS/JS live in two small local files. Existing analytics and signup endpoints
+  remain; no additional third-party script was introduced.
+- Product deep links remain: merchcard, stopplayingcard, weirdturncard,
+  fathergodcard, heysportcard. Never resurrect stale deadlines or paused offers.
+- The roach remains a quiet brand punctuation mark in the crew section, not an
+  interrupting animation. No automatic sales toasts, modal signup, or motion clutter.
+
+## Historical design — supporting pages
+
 Extracted from the live site (index / video / vault / privacy), 2026-07-16. These are
 decisions already made. Comply with them — do not redesign, do not add fonts, colors,
 or ideas. If a rule here conflicts with your instinct, the rule wins.

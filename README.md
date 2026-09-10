@@ -26,7 +26,10 @@ That preserves **paths and `?s=` analytics tags**, so every QR code, pinned comm
 ## Source tags (`?s=`)
 Sanitized at the source to `[a-zA-Z0-9_-]`, 24-char cap, on all three pages.
 Tag map: **`qr`** = stream overlay QR · **`chat`** = pinned comment · **`live`** = video description · **`ig`/`tt`** = bio links.
-`ORDERS.qr = ORDERS.live` (QR visitors get the stream-viewer card order).
+The September 10 homepage uses one creator-first section order for regular visitors.
+`vaultback` moves the free inline signup to the top and shows a return link.
+All source tags still reach product UTMs, internal funnel URLs, signup properties,
+and analytics. The old per-card `ORDERS` layout was retired with the approved redesign.
 Analytics: GoatCounter `dez2fly.goatcounter.com`. Latest read: `_STRATEGY/DOORS_READ_2026-08-26.md`.
 
 ## Data files
@@ -44,3 +47,35 @@ run from inside this folder. New repos need that helper configured locally or an
 
 ## Style
 `DESIGN.md` and `VOICE.md` govern every word and pixel. **Standing rule: no 🔞 / 18+ / NSFW / "uncut" in any YouTube-facing copy** — tease implicitly only.
+
+## Homepage redesign — September 10, 2026
+User-approved direction: oversized Dez2fly masthead, latest-video feature, five-shirt
+collection, crew destinations, and inline email capture. Native HTML with local
+`assets/home.css` and `assets/home.js`; no framework, webfont, bundler, or new
+third-party runtime. The old automatic email sheet, sales toasts, coupon promotion,
+and unverified first-run deadline were removed. Product URLs/prices, Clarity,
+GoatCounter, Klaviyo company/list, and the automated data refresh remain intact.
+The personal-video offer remains paused. The Vault/privacy/video/tee routes have
+not been redesigned or changed by this release.
+
+The latest-video HTML fallback and social-preview image are a September 10
+snapshot. The live player/title continue updating from `latest.json`. When
+changing the fallback manually, keep its HTML link/image/title and the initial
+`videoId` in `assets/home.js` in sync. Use the current Fourthwall listing image
+when updating a product image; do not use an old local design-round mockup.
+
+### Regression checks
+Tests run the real HTML and local JavaScript under jsdom, with external tracking
+and signup networking intercepted. No test subscribes a real address.
+
+```sh
+npm install --prefix /tmp/dez2fly-homepage-test-deps --no-audit --no-fund jsdom@27.0.0
+NODE_PATH=/tmp/dez2fly-homepage-test-deps/node_modules node --test scripts/homepage.test.cjs
+node --check assets/home.js
+git diff --check
+```
+
+For a visual preview: `/usr/bin/python3 -m http.server 8765 --bind 127.0.0.1`.
+Check 320px, 390px, 768px, and 1440px widths, product images/links, keyboard focus,
+video play, and source-aware links. Browser artifacts in `.playwright-cli/` and
+`output/playwright/` are intentionally ignored.
