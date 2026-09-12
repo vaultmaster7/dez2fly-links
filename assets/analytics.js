@@ -14,14 +14,15 @@
   var expiryTimer, observer;
   var panel, settings;
   var entrySources = ['qr', 'chat', 'live', 'ig', 'tt', 'yt', 'fb', 'dc', 'email',
-    'direct', 'other', 'vaultback', 'codex_qa'];
+    'direct', 'other', 'vaultback', 'codex_qa', 'ig_bio', 'igskits_bio', 'tt_bio', 'yt_bio', 'tv'];
   var qa = /^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname) ||
     new URLSearchParams(location.search).get('s') === 'codex_qa';
   var linkIds = ['latest', 'video-open', 'merchcard', 'weirdturncard', 'fathergodcard',
     'stopplayingcard', 'heysportcard', 'vaultcard', 'ytmemcard', 'discordcard', 'banner',
     'youtube-main-channel', 'live-network', 'dez2fly-animated', 'shop-all', 'shop-bottom',
     'nav-home', 'nav-watch', 'nav-shop', 'nav-crew', 'hero-watch', 'hero-shop', 'free-youtube',
-    'tiktok', 'instagram', 'instagram-skits', 'footer-home', 'business-contact', 'privacy', 'back-top'];
+    'tiktok', 'instagram', 'instagram-skits', 'footer-home', 'business-contact', 'privacy', 'back-top',
+    'vault-teaser', 'vault-free', 'vault-paid', 'vault-membership'];
   var sectionIds = ['watch', 'latest', 'shop', 'grab', 'vault', 'crew', 'membership', 'discord', 'bottom'];
 
   function denialCookiePresent() {
@@ -92,7 +93,7 @@
     if (!raw) return true;
     try {
       var url = new URL(raw);
-      if (['/', '/index.html', '/privacy.html', '/vault.html', '/video.html', '/ask.html'].indexOf(url.pathname) < 0) return false;
+      if (['/', '/index.html', '/privacy.html', '/vault.html', '/video.html', '/ask.html', '/tv', '/tv/', '/tv/index.html'].indexOf(url.pathname) < 0) return false;
       if (url.hash && !/^#(main|watch|latest|shop|crew|grab|top)$/.test(url.hash)) return false;
       var safe = true;
       url.searchParams.forEach(function (value, key) {

@@ -94,7 +94,7 @@
   footer a{color:var(--mute)}
 </style>
 <link rel="stylesheet" href="/assets/analytics.css?v=20260911">
-<script defer src="/assets/analytics.js?v=20260911"></script>
+<script defer src="/assets/analytics.js?v=20260912"></script>
 </head>
 <body>
 <div class="wrap">
@@ -105,9 +105,9 @@
     <div class="members" id="vmembers"></div>
   </header>
 
-  <a class="player" id="teaser" href="https://privatedrop7.carrd.co" style="display:block;text-decoration:none;color:inherit">
-    <div class="lbl">▶ free taste — watch the origin story teaser</div>
-    <div class="sub" style="padding-top:2px">60 seconds, free, no signup. you'll understand why the full version can't live on youtube. tap to watch →</div>
+  <a class="player" id="teaser" data-ga-track="vault-teaser" href="https://privatedrop7.carrd.co" style="display:block;text-decoration:none;color:inherit">
+    <div class="lbl">▶ free preview — Uncle’s origin story</div>
+    <div class="sub" style="padding-top:2px">enter your email to get the preview. tap to get access →</div>
   </a>
 
   <div class="locked">
@@ -131,15 +131,15 @@
   </div>
 
   <div class="cta">
-    <a class="btn free" id="btn-free" href="https://www.patreon.com/Dez2fly?utm_source=biolink&utm_medium=bridge&utm_campaign=vault_free">
+    <a class="btn free" id="btn-free" data-ga-track="vault-free" href="https://www.patreon.com/Dez2fly?utm_source=biolink&utm_medium=bridge&utm_campaign=vault_free">
       follow the vault — free
       <small>see what drops. no card. upgrade whenever.</small>
     </a>
-    <a class="btn paid" id="btn-paid" href="https://www.patreon.com/Dez2fly?utm_source=biolink&utm_medium=bridge&utm_campaign=vault_paid">
+    <a class="btn paid" id="btn-paid" data-ga-track="vault-paid" href="https://www.patreon.com/Dez2fly?utm_source=biolink&utm_medium=bridge&utm_campaign=vault_paid">
       unlock everything — $5/mo
       <small>every uncut drop, instantly. cancel anytime 🪳</small>
     </a>
-    <a class="btn yt" id="ytmem" href="https://www.youtube.com/@Dez2fly/join">
+    <a class="btn yt" id="ytmem" data-ga-track="vault-membership" href="https://www.youtube.com/@Dez2fly/join">
       ▶️ rather stay on youtube? join memberships
       <small id="st-ytmem">the squeaky-clean exclusives + emotes in chat & the 24/7 stream</small>
     </a>

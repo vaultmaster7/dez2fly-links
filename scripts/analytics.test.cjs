@@ -420,3 +420,45 @@ test('an ephemeral grant works in its active context and fails closed when focus
     assert.ok(errors.some(error => /navigation/.test(error)), trigger);
   }
 });
+
+test('bio and TV entry tags remain distinct in safe GA context after consent', () => {
+  // Catches approved profile placements collapsing into the generic other bucket.
+  for (const source of ['ig_bio', 'igskits_bio', 'tt_bio', 'yt_bio', 'tv']) {
+    const { window, document } = page({ url: 'https://dez2fly.com/?s=' + source });
+    assert.deepEqual(scripts(document), [], 'new sources must not bypass consent');
+    allow(document);
+    window.dezAnalytics.track('navigation_click', { link_id: 'merchcard' });
+    const config = commands(window).find(command => command[0] === 'config')[2];
+    const event = commands(window).find(command => command[0] === 'event')[2];
+    assert.equal(config.entry_source, source);
+    assert.equal(event.entry_source, source);
+    assert.equal(event.page_location, 'https://dez2fly.com/');
+    assert.equal(event.link_id, 'merchcard');
+    assert.ok(scripts(document).some(url => url.startsWith('https://www.clarity.ms/tag/')),
+      'approved placements remain eligible for consented Clarity');
+  }
+});
+
+test('unapproved bio-like tags still lose their raw value and withhold recordings', () => {
+  const { window, document } = page({ url: 'https://dez2fly.com/?s=ig_bio_private-user' });
+  allow(document);
+  assert.equal(commands(window).find(command => command[0] === 'config')[2].entry_source, 'other');
+  assert.ok(!JSON.stringify(commands(window)).includes('private-user'));
+  assert.ok(!scripts(document).some(url => url.startsWith('https://www.clarity.ms/tag/')));
+});
+
+test('the TV alias permits consented recordings without admitting arbitrary referring queries', () => {
+  // Catches the new intermediate route excluding every ordinary TV visitor from Clarity.
+  for (const [referrer, permitted] of [
+    ['https://dez2fly.com/tv', true],
+    ['https://dez2fly.com/tv/', true],
+    ['https://dez2fly.com/tv/index.html', true],
+    ['https://dez2fly.com/tv/?email=private@example.com', false],
+  ]) {
+    const { window, document } = page({ url: 'https://dez2fly.com/?s=tv', referrer });
+    assert.deepEqual(scripts(document), []);
+    allow(document);
+    assert.equal(scripts(document).some(url => url.startsWith('https://www.clarity.ms/tag/')), permitted);
+    assert.ok(!JSON.stringify(commands(window)).includes('private@example.com'));
+  }
+});
