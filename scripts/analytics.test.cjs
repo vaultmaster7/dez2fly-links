@@ -447,18 +447,19 @@ test('unapproved bio-like tags still lose their raw value and withhold recording
   assert.ok(!scripts(document).some(url => url.startsWith('https://www.clarity.ms/tag/')));
 });
 
-test('the TV alias permits consented recordings without admitting arbitrary referring queries', () => {
-  // Catches the new intermediate route excluding every ordinary TV visitor from Clarity.
-  for (const [referrer, permitted] of [
-    ['https://dez2fly.com/tv', true],
-    ['https://dez2fly.com/tv/', true],
-    ['https://dez2fly.com/tv/index.html', true],
-    ['https://dez2fly.com/tv/?email=private@example.com', false],
-  ]) {
-    const { window, document } = page({ url: 'https://dez2fly.com/?s=tv', referrer });
-    assert.deepEqual(scripts(document), []);
-    allow(document);
-    assert.equal(scripts(document).some(url => url.startsWith('https://www.clarity.ms/tag/')), permitted);
-    assert.ok(!JSON.stringify(commands(window)).includes('private@example.com'));
+test('clean aliases permit consented recordings without admitting arbitrary referring queries', () => {
+  // Catches the intermediate route excluding ordinary visitors, without widening the query gate.
+  for (const [route, source] of [['tv', 'tv'], ['ig', 'ig_bio'], ['tiktok', 'tt_bio']]) {
+    for (const [suffix, permitted] of [
+      ['', true], ['/', true], ['/index.html', true],
+      ['/?email=private@example.com', false], ['/?fbclid=private-visitor', false],
+    ]) {
+      const referrer = 'https://dez2fly.com/' + route + suffix;
+      const { window, document } = page({ url: 'https://dez2fly.com/?s=' + source, referrer });
+      assert.deepEqual(scripts(document), []);
+      allow(document);
+      assert.equal(scripts(document).some(url => url.startsWith('https://www.clarity.ms/tag/')), permitted);
+      assert.ok(!JSON.stringify(commands(window)).includes('private'));
+    }
   }
 });

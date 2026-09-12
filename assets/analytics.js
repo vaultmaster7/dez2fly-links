@@ -93,7 +93,7 @@
     if (!raw) return true;
     try {
       var url = new URL(raw);
-      if (['/', '/index.html', '/privacy.html', '/vault.html', '/video.html', '/ask.html', '/tv', '/tv/', '/tv/index.html'].indexOf(url.pathname) < 0) return false;
+      if (['/', '/index.html', '/privacy.html', '/vault.html', '/video.html', '/ask.html', '/tv', '/tv/', '/tv/index.html', '/ig', '/ig/', '/ig/index.html', '/tiktok', '/tiktok/', '/tiktok/index.html'].indexOf(url.pathname) < 0) return false;
       if (url.hash && !/^#(main|watch|latest|shop|crew|grab|top)$/.test(url.hash)) return false;
       var safe = true;
       url.searchParams.forEach(function (value, key) {

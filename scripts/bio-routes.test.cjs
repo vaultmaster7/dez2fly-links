@@ -106,11 +106,12 @@ test('Vault exits emit consented stable GA IDs while preserving legacy counts an
   }
 });
 
-test('the TV route immediately hands off to one attributed homepage without tracking twice', () => {
+for (const [routeName, source] of [['tv', 'tv'], ['ig', 'ig_bio'], ['tiktok', 'tt_bio']]) {
+test('the /' + routeName + ' route immediately hands off to one attributed homepage without tracking twice', () => {
   // Catches a slow tracker dependency, an open redirect, or missing no-JS fallback.
-  const route = path.join(root, 'tv/index.html');
-  assert.ok(fs.existsSync(route), 'a real /tv/ route must exist before it is advertised');
-  const dom = new JSDOM(fs.readFileSync(route, 'utf8'), { url: 'https://dez2fly.com/tv/?next=https://untrusted.test/&s=qr' });
+  const route = path.join(root, routeName, 'index.html');
+  assert.ok(fs.existsSync(route), 'a real /' + routeName + '/ route must exist before it is advertised');
+  const dom = new JSDOM(fs.readFileSync(route, 'utf8'), { url: 'https://dez2fly.com/' + routeName + '/?next=https://untrusted.test/&s=qr' });
   windows.push(dom.window);
   const redirects = [];
   const location = {
@@ -120,13 +121,14 @@ test('the TV route immediately hands off to one attributed homepage without trac
   };
   const context = vm.createContext({
     location, window: { location }, document: dom.window.document, URL, URLSearchParams,
-    setTimeout() { assert.fail('TV handoff must not wait for analytics or a timer'); },
+    setTimeout() { assert.fail('handoff must not wait for analytics or a timer'); },
     fetch() { assert.fail('the alias must not emit duplicate visit counts'); },
   });
   assert.equal(dom.window.document.querySelectorAll('script[src]').length, 0);
   for (const script of dom.window.document.querySelectorAll('script')) vm.runInContext(script.textContent, context);
-  assert.deepEqual(redirects, ['/?s=tv']);
+  assert.deepEqual(redirects, ['/?s=' + source]);
   const fallback = dom.window.document.querySelector('a[href]');
   assert.ok(fallback && fallback.textContent.trim(), 'a readable fallback is available without JavaScript');
-  assert.equal(fallback.href, 'https://dez2fly.com/?s=tv');
+  assert.equal(fallback.href, 'https://dez2fly.com/?s=' + source);
 });
+}
