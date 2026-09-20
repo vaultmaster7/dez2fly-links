@@ -283,4 +283,102 @@
       gc({path: 'signup-err--' + src, event: true});
     }).finally(function () { clearTimeout(timeout); pending = false; });
   });
+
+  // ---- signup sheet: one interrupt per session, hard-suppressed (restored Sep 21 2026 from index.html@0c2b61b) ----
+  (function(){
+    var sheet=document.getElementById('sheet'),sheetbg=document.getElementById('sheetbg');
+    if(!sheet||!sheetbg) return;
+    var shform=document.getElementById('shform'),shmsg=document.getElementById('shmsg'),shbtn=document.getElementById('shbtn');
+    var shemail=document.getElementById('shemail'),shsug=document.getElementById('shsug');
+    var sheetOpen=false,sheetDone=false,armed=false,dwellT=null,lastFocus=null;
+    setTimeout(function(){armed=true;},4000); // exit-intent doesn't jump instant bouncers
+    wireLiveCheck(shemail,shsug);
+    var canSheet=function(){
+      if(stored('crew')==='1') return false;                       // already on the list
+      if(window.__signed) return false;                            // signed up this session
+      if(sheetDone||sheetOpen) return false;                       // one interrupt per session, period
+      try{ if(sessionStorage.getItem('sheet')==='1') return false; }catch(e){}
+      if(src==='vaultback') return false;                          // that visit already has the form moved to the top
+      if(document.activeElement===gemail||gemail.value) return false; // they're already on the inline form
+      if(document.querySelector('#latest iframe, .video-link iframe, main iframe')) return false; // mid-video — don't interrupt the watch
+      if(consentUp()) return false;                                // never stack on the analytics-consent panel
+      return true;
+    };
+    // The analytics-consent panel (Codex, Sep 11) sits bottom-of-screen on a first visit. The sheet must never open under it:
+    // wait for the visitor's choice, then give them a beat before the one interrupt.
+    var consentUp=function(){ var p=document.querySelector('.analytics-consent, #analytics-consent'); return !!(p && !p.hidden && p.getClientRects().length); }; // not offsetParent: it is null for position:fixed panels
+    var retryT=null, retryAfterConsent=function(){ clearInterval(retryT); var n=0; retryT=setInterval(function(){ if(sheetDone||++n>120){clearInterval(retryT);return;} if(!consentUp()){ clearInterval(retryT); setTimeout(openSheet,2500); } },1000); };
+    var escFn=function(e){ if(e.key==='Escape') closeSheet('esc'); };
+    var closeSheet=function(how){
+      if(!sheetOpen) return;
+      sheetOpen=false;
+      sheet.classList.remove('on'); sheetbg.classList.remove('on');
+      sheet.setAttribute('aria-hidden','true');
+      document.removeEventListener('keydown',escFn);
+      if(lastFocus&&lastFocus.focus){ try{lastFocus.focus({preventScroll:true});}catch(e){} }
+      if(how!=='signup') gc({path:'overlay-dismiss--'+src,event:true,title:'overlay dismiss ('+src+')'});
+    };
+    var openSheet=function(){
+      if(!sheetDone&&!sheetOpen&&consentUp()){ retryAfterConsent(); return; }
+      if(!canSheet()) return;
+      sheetOpen=true; sheetDone=true; clearTimeout(dwellT);
+      try{sessionStorage.setItem('sheet','1');}catch(e){}
+      var gb=document.getElementById('grabbody');
+      if(gb&&gb.textContent) document.getElementById('shbody').textContent=gb.textContent;
+      lastFocus=document.activeElement;
+      sheet.setAttribute('aria-hidden','false');
+      sheetbg.classList.add('on'); sheet.classList.add('on');
+      document.addEventListener('keydown',escFn);
+      gc({path:'overlay-view--'+src,event:true,title:'overlay view ('+src+')'});
+    };
+    document.getElementById('shx').addEventListener('click',function(){closeSheet('x');});
+    sheetbg.addEventListener('click',function(){closeSheet('outside');});
+    var tY=null,tD=0; // swipe-down to dismiss (ignores touches that start on the input/button)
+    sheet.addEventListener('touchstart',function(e){
+      var tag=(e.target.tagName||''); if(tag==='INPUT'||tag==='BUTTON'||tag==='A'){tY=null;return;}
+      tY=e.touches[0].clientY;tD=0;sheet.style.transition='none';
+    },{passive:true});
+    sheet.addEventListener('touchmove',function(e){ if(tY===null)return; tD=e.touches[0].clientY-tY; if(tD>0)sheet.style.transform='translate(-50%,'+tD+'px)'; },{passive:true});
+    sheet.addEventListener('touchend',function(){ if(tY===null)return; sheet.style.transition='';sheet.style.transform=''; if(tD>80)closeSheet('swipe'); tY=null; });
+    var shPending=false;
+    shform.addEventListener('submit',function(e){
+      e.preventDefault();
+      if(shPending||window.__signed||shform.querySelector('.hp').value) return; // bot trap
+      var email=tidyEmail(shemail.value.trim().toLowerCase());
+      if(email!==shemail.value) shemail.value=email;
+      if(!gateEmail(email,shform,shsug,shemail,shmsg)) return;
+      shPending=true; shbtn.disabled=true; shbtn.textContent='sending…'; shmsg.textContent=''; shmsg.className='msg';
+      var ctrl=new AbortController(), to=setTimeout(function(){ctrl.abort();},15000);
+      fetch('https://a.klaviyo.com/client/subscriptions/?company_id=YcE5u6',{
+        method:'POST',signal:ctrl.signal,headers:{'Content-Type':'application/json',revision:'2024-10-15'},
+        body:JSON.stringify({data:{type:'subscription',attributes:{custom_source:'dez2fly.com ('+src+')',
+          profile:{data:{type:'profile',attributes:{email:email,properties:{'Signup Source':'biolink_'+src,'Signup Page':'dez2fly.com','Signup Surface':'overlay'}}}}},
+          relationships:{list:{data:{type:'list',id:'XA6qcE'}}}}})
+      }).then(function(r){
+        if(!r.ok&&r.status!==202) throw Error();
+        storeCrew(); window.__signed=1;
+        shform.style.display='none'; shmsg.className='msg ok'; shmsg.textContent="clip's on the way — check your inbox 🪳";
+        success(false); // keep the inline card honest after the sheet closes
+        gc({path:'overlay-signup--'+src,event:true,title:'overlay signup ('+src+')'});
+        try{ if(window.dezAnalytics) window.dezAnalytics.track('signup_accepted',{form_id:'sheetform'}); }catch(err){}
+        setTimeout(function(){closeSheet('signup');},6500);
+      }).catch(function(){
+        shmsg.className='msg err'; shmsg.textContent="that didn't go through. check your connection and try again.";
+        shbtn.disabled=false; shbtn.textContent='send me the clip';
+        gc({path:'signup-err--'+src,event:true});
+      }).finally(function(){ clearTimeout(to); shPending=false; });
+    });
+    // triggers: ~12s dwell OR 60% scroll depth OR exit intent — first one through the door wins
+    dwellT=setTimeout(openSheet,12000);
+    var maxY=window.pageYOffset,lastY=maxY,lastT=Date.now();
+    window.addEventListener('scroll',function(){
+      if(sheetDone) return;
+      var y=window.pageYOffset,now=Date.now(),doc=document.documentElement;
+      if(y>maxY)maxY=y;
+      if((y+window.innerHeight)/Math.max(1,doc.scrollHeight)>=0.6){ openSheet(); }
+      else if(armed){ var dt=now-lastT; if(dt>16&&dt<300&&maxY>400&&(lastY-y)/dt>0.9) openSheet(); } // fast flick back up = leaving
+      lastY=y;lastT=now;
+    },{passive:true});
+    document.addEventListener('mouseout',function(e){ if(sheetDone||!armed) return; if(!e.relatedTarget&&e.clientY<=8) openSheet(); });
+  })();
 })();

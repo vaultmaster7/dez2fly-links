@@ -1,3 +1,4 @@
 scripts/cron.log
 .playwright-cli/
 output/playwright/
+.claude/

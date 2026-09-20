@@ -17,10 +17,10 @@
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://i.ytimg.com">
 <link rel="preconnect" href="https://imgproxy.fourthwall.dev">
-<link rel="stylesheet" href="/assets/home.css?v=20260910">
+<link rel="stylesheet" href="/assets/home.css?v=20260921b">
 <link rel="stylesheet" href="/assets/analytics.css?v=20260911">
 <script defer src="/assets/analytics.js?v=20260912b"></script>
-<script defer src="/assets/home.js?v=20260911"></script>
+<script defer src="/assets/home.js?v=20260921c"></script>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@graph":[{"@type":"Person","@id":"https://dez2fly.com/#dez2fly","name":"Dez2fly","url":"https://dez2fly.com/","description":"Comedy creator. Skits, characters, and the 2FLY Network.","sameAs":["https://www.youtube.com/@Dez2fly","https://www.youtube.com/@Dez2flyAnimated","https://www.tiktok.com/@dez2fly","https://www.instagram.com/dez2fly","https://www.instagram.com/dez2flyskits","https://www.patreon.com/Dez2fly","https://discord.gg/htTStDYfBN"]},{"@type":"Organization","@id":"https://dez2fly.com/#org","name":"2 Fly Entertainment LLC","url":"https://dez2fly.com/","email":"2flyentllc@gmail.com","founder":{"@id":"https://dez2fly.com/#dez2fly"}},{"@type":"WebSite","@id":"https://dez2fly.com/#site","url":"https://dez2fly.com/","name":"Dez2fly","publisher":{"@id":"https://dez2fly.com/#org"}}]}
 </script>
@@ -89,6 +89,25 @@
 <noscript><p>turn on JavaScript to join the email list. everything else here still works.</p></noscript>
 </div></div></section>
 </main>
+<!-- signup sheet: restored Sep 21 2026. The Sep 10–11 redesign dropped it and site signups went from ~80 in 20 days to 3 in 10 while QR traffic rose 9x. One interrupt per session, never mid-video, never for people already on the list. -->
+<div id="sheetbg" aria-hidden="true"></div>
+<div id="sheet" role="dialog" aria-modal="true" aria-labelledby="shtitle" aria-hidden="true" data-clarity-mask="True">
+<button id="shx" type="button" aria-label="close">✕</button>
+<div class="shhandle" aria-hidden="true"></div>
+<p class="shkicker">straight from dez</p>
+<h2 id="shtitle">one more for the inbox.</h2>
+<p id="shbody">the full Uncle skit, free. then get the next drop before you hear about it in the comments.</p>
+<form id="shform" novalidate>
+<input class="hp" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+<label class="shlabel" for="shemail">your email</label>
+<div class="shrow"><input type="email" id="shemail" name="email" placeholder="you@example.com" autocomplete="email" inputmode="email" enterkeyhint="go" autocapitalize="off" autocorrect="off" spellcheck="false" required>
+<button type="submit" id="shbtn">send me the clip</button></div>
+<button class="sug" type="button" id="shsug"></button>
+</form>
+<div class="msg" id="shmsg" role="status" aria-live="polite"></div>
+<p class="shfine">instant delivery · out in one tap, anytime</p>
+</div>
+
 <footer class="site-footer"><div class="container">
 <div class="footer-top"><a class="brand" href="/" aria-label="Dez2fly home" data-ga-track="footer-home">d2f<span aria-hidden="true">✦</span></a><p>you made it this far.<br>might as well stay.</p><div class="socials" aria-label="Social profiles"><a href="https://www.tiktok.com/@dez2fly" data-ga-track="tiktok">TikTok ↗</a><a href="https://www.instagram.com/dez2fly" data-ga-track="instagram">Instagram ↗</a><a href="https://www.instagram.com/dez2flyskits" data-ga-track="instagram-skits">Instagram Skits ↗</a></div></div>
 <div class="footer-bottom"><span>© 2 Fly Entertainment LLC</span><a href="mailto:2flyentllc@gmail.com" data-ga-track="business-contact">business &amp; questions</a><a href="/privacy.html" data-ga-track="privacy">privacy</a><button type="button" data-analytics-settings>analytics settings</button><a href="#watch" data-ga-track="back-top">back to the top ↑</a></div>
