@@ -149,6 +149,14 @@
       d[i][j]=Math.min(d[i-1][j]+1,d[i][j-1]+1,d[i-1][j-1]+(a[i-1]===b[j-1]?0:1));
     return d[m][n];
   };
+  // Sep 21 2026: 39 invalid attempts vs 45 signups on the QR door in 31 days — people typing on a phone while the TV plays.
+  // Clean the thumb slips BEFORE judging the address: spaces, ",com", trailing dots, "name@gmail" with no ending.
+  var tidyEmail=function(e){
+    e=e.replace(/\s+/g,'').replace(/,/g,'.').replace(/\.+$/,'').replace(/@+/,'@');
+    var at=e.indexOf('@'); if(at<1) return e; var u=e.slice(0,at), d=e.slice(at+1);
+    if(d.indexOf('.')<0){ for(var i=0;i<SUG_TARGETS.length;i++){ if(SUG_TARGETS[i].split('.')[0]===d) return u+'@'+SUG_TARGETS[i]; } }
+    return u+'@'+d;
+  };
   var emailCheck=function(email){ // expects lowercased, RX-passing input
     var at=email.indexOf('@'), user=email.slice(0,at), dom=email.slice(at+1);
     if(ROLES.indexOf(user)>-1 || /^no[-_.]?reply/.test(user)) return {ok:false};
@@ -245,7 +253,8 @@
   form.addEventListener('submit', function (e) {
     e.preventDefault();
     if (pending || window.__signed || form.querySelector('.hp').value) return;
-    var email = gemail.value.trim().toLowerCase();
+    var email = tidyEmail(gemail.value.trim().toLowerCase());
+    if (email !== gemail.value) gemail.value = email;
     if (!gateEmail(email, form, gsug, gemail, msg)) return;
     pending = true; btn.disabled = true; btn.textContent = 'sending…';
     msg.textContent = ''; msg.className = 'msg';
