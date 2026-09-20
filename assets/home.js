@@ -153,6 +153,10 @@
     var at=email.indexOf('@'), user=email.slice(0,at), dom=email.slice(at+1);
     if(ROLES.indexOf(user)>-1 || /^no[-_.]?reply/.test(user)) return {ok:false};
     for(var i=0;i<DISPO.length;i++){ if(dom.indexOf(DISPO[i])>-1) return {ok:false}; }
+    // Sep 21 2026: school inboxes. Klaviyo bounce sample: 'Content' soft-bounces at Gsuite school domains
+    // (students.*.org, stu.*-k12.org) — district filters reject outside mail, so the clip never arrives and the
+    // bounce counts against the sender. Also the wrong inbox for this list. Ask for a personal address instead.
+    if(/(^|\.)k12\.|(^|[.\-])(stu|student|students|pupil|pupils)\.|\.edu$|\.edu\.[a-z]{2}$|(^|\.)sch\.[a-z.]+$|schools?\.|isd\.|usd\d*\.|\.ac\.[a-z]{2}$/.test(dom)) return {ok:false,school:true};
     if(GOOD_DOMAINS.indexOf(dom)>-1) return {ok:true};
     var best=null,bd=3;
     for(var j=0;j<SUG_TARGETS.length;j++){
@@ -191,7 +195,7 @@
     }
     var v=emailCheck(email.toLowerCase());
     if(!v.ok){
-      msgEl.className='msg err'; msgEl.textContent='use a real inbox so the clip actually reaches you 🪳';
+      msgEl.className='msg err'; msgEl.textContent=v.school?"school emails block us, use your personal one so the clip actually reaches you 🪳":'use a real inbox so the clip actually reaches you 🪳';
       input.focus(); gc({path:'signup-blocked--'+src,event:true}); return false;
     }
     if(v.suggest && warnedHolder._warned!==email){ // warn once; same value resubmitted = they mean it
