@@ -10,13 +10,14 @@
 // Tag map: chat = pinned live-chat message on the 24/7 stream, com = pinned comment under the stream, live = stream description,
 // vid = long-form description/pinned comment, ig/tt = bios. Logs /visit-join-<tag> in GoatCounter, then redirects.
 // When a newer members-only video drops, change ONLY the id below (and the fallback href) — the tags and counters stay.
+// History: E3uraPTbRVk "Married But At What Cost?" (Sep 18–21) → 5ROGa07j8G4 "Never Leave Uncle Alone With the Dog…" (Sep 21 →).
 (function(){
   var src=(new URLSearchParams(location.search).get('s')||'direct').replace(/[^a-z0-9_-]/gi,'').slice(0,20)||'direct';
-  var dest='https://www.youtube.com/watch?v=E3uraPTbRVk';
+  var dest='https://www.youtube.com/watch?v=5ROGa07j8G4';
   document.addEventListener('DOMContentLoaded',function(){var a=document.getElementById('go');if(a)a.href=dest;});
   var tries=0, sent=false;
   function fire(){ if(sent)return; if(window.goatcounter&&goatcounter.count){sent=true;goatcounter.count({path:'/visit-join-'+src,title:'Join door ('+src+')'});setTimeout(function(){location.replace(dest);},250);} else if(tries++<12){setTimeout(fire,200);} else {location.replace(dest);} }
   fire();
 })();
 </script></head>
-<body><div>2Fly Crew — taking you to the members-only drop…<br><a id="go" href="https://www.youtube.com/watch?v=E3uraPTbRVk">tap here if it doesn't move</a></div></body></html>
+<body><div>2Fly Crew — taking you to the members-only drop…<br><a id="go" href="https://www.youtube.com/watch?v=5ROGa07j8G4">tap here if it doesn't move</a></div></body></html>
